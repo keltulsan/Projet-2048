@@ -22,7 +22,7 @@ public:
 	/// 
 	int sumValue(int value1, int value2);
 	bool canFuse(int value1, int value2);
-	bool detectCollide(Tile* tile1);
+	bool detectCollide(int x1, int x2, int y1, int y2);
 	bool canMove(int x, int y);
 	void moveTile(Tile* tile);
 };

@@ -51,21 +51,23 @@ bool Grid::canFuse(int value1, int value2) {
 	};
 }
 
-//bool Grid::canMove(int x, int y) {
-//	return true;
-//};
-//
+
+bool Grid::detectCollide(int x1, int x2, int y1, int y2) {
+	std::vector<int> _tile1 = { x1, y1 };
+	std::vector<int> _tile2 = { x2, y2 };
+	if (_tile1[0] == _tile2[0] && _tile1[1] == _tile2[1]) {
+		return true;
+	}
+	return false;
+};
+
+bool Grid::canMove(int x, int y) {
+	int id = this->getIdfromCoordinates(x, y);
+	if (id - 1 < 1 || id + 1 > this->sizeMax)
+	return true;
+};
 
 
-//bool Grid::detectCollide(Tile* tile1) {
-//	std::vector<int> _tile1 = { tile1->posX, tile1->posY };
-//	std::vector<int> _tile2 = { this->posX, this->posY };
-//	if (_tile1[0] == _tile2[0] && _tile1[1] == _tile2[1]) {
-//		return true;
-//	}
-//	return false;
-//};
-//
 //void Grid::moveTile(Tile* tile1) {
 //	if (tile1->detectCollide(this)) {
 //		if (tile1->canFuse(this)) {

@@ -17,7 +17,7 @@ int main()
     
     Grid* o_grid = new Grid(4, 4);
     o_grid->display();
-    o_grid->changeValueWithCoordinates(4, 4, 9);
+    o_grid->canMove(1, 1);
 
     delete o_grid;
 
