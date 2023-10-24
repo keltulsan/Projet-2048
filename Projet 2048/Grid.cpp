@@ -76,9 +76,8 @@ bool Grid::detectCollide(int id, int newId) {
 };
 
 bool Grid::canMove(int id, int newId, int distance) { //possbilité de bouger les blocs avec distance {-1, 1}
-	id++; // ++ car envoie d'un id pour un tableau et non l'id des cases créées
-	newId++; // ++ car envoie d'un id pour un tableau et non l'id des cases créées
-	if (newId < 1  || newId > this->sizeMax || id % this->sizeY == 0 && distance == 1 || id % this->sizeY + 1 == 0 && distance == -1) {
+	std::cout << id << std::endl;
+	if (newId < 1  || newId > this->sizeMax || id % this->sizeY == 0 && distance == 1 || id % this->sizeY == 0 && distance == -1) {
 		// Verifie que l'id reste dans les bornes de la grille
 		// vérifie que l'id reste à droite et ne dépasse pas de la grille
 		// vérifie que l'id reste à gauche et ne dépasse pas de la grille
@@ -99,22 +98,53 @@ bool Grid::canMove(int id, int newId, int distance) { //possbilité de bouger les
 
 
 void Grid::moveTile(int x , int y, int movement) { //deplacer les tuile/block
-	int id = this->getIdfromCoordinates(x, y) - 1;
+	int id = this->getIdfromCoordinates(x, y);
 	int newId = id + movement;
-	if (this->canMove(id, newId, movement)) {
+
+	while (this->canMove(id, newId, movement)) {
+		std::cout << id << "/" << newId << std::endl;
 		if (this->detectCollide(id, newId)) {
+			std::cout << "collide" << std::endl;
 			if (this->canFuse(id, newId)) {
+				std::cout << "fused" << std::endl;
 				this->sumValue(id, newId);
 			}
 		}
-		else {
+		else
+		{
 			this->tab[newId]->setValue(this->tab[id]->getValue());
 			this->tab[id]->setValue(0);
 		}
-		//system("CLS");
+		if (movement > 0) {
+			id++;
+			newId++;
+		}
+		else if (movement < 0) {
+			id--;
+			newId--;
+		}
 		this->display();
-	}
+		
+	};
 };
+
+//void Grid::moveTile(int x, int y, int movement) { //deplacer les tuile/block
+//	int id = this->getIdfromCoordinates(x, y) - 1;
+//	int newId = id + movement;
+//	if (this->canMove(id, newId, movement)) {
+//		if (this->detectCollide(id, newId)) {
+//			if (this->canFuse(id, newId)) {
+//				this->sumValue(id, newId);
+//			}
+//		}
+//		else {
+//			this->tab[newId]->setValue(this->tab[id]->getValue());
+//			this->tab[id]->setValue(0);
+//		}
+//		//system("CLS");
+//		this->display();
+//	}
+//};
 
 
 int Grid::movement() {
