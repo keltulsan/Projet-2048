@@ -19,11 +19,11 @@ public:
 	int getIdfromCoordinates(int x, int y);
 	void changeValueWithCoordinates(int x, int y, int value);
 
-	/// 
-	int sumValue(int value1, int value2);
-	bool canFuse(int value1, int value2);
-	bool detectCollide(int x1, int x2, int y1, int y2);
-	bool canMove(int x, int y);
-	void moveTile(Tile* tile);
+	void sumValue(int id, int newId);
+	bool canFuse(int id, int newId);
+	bool detectCollide(int id, int newId);
+	bool canMove(int id, int newId, int distance);
+	void moveTile(int x, int y, int movement);
+	int movement();
 };
 
