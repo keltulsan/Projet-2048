@@ -172,14 +172,58 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 	};
 };
 
-//void Grid::randTuiles(nit x, int y) {
-	//if this->tab[i]->getValue(){
-		//Tuile = rand() _tuile1;
-		//return();
-	//}
-	//else
-		//if
-//}
+void Grid::tileRandomSetNumber() 
+{
+	int randomNumber = rand() % 10 + 1;
+	std::vector<int> usedX;
+	std::vector<int> usedY;
+	while (1) 
+	{
+		int randomX = rand() % (this->sizeX); // index x random
+		int randomY = rand() % (this->sizeY); // index y random
+		if ( )
+		if (this->tab[randomX][randomY]->getValue() == 0)
+		{
+			if (randomNumber < 9) {
+				this->tab[randomX][randomY]->setValue(2);
+			}
+			else {
+				this->tab[randomX][randomY]->setValue(4);
+			}
+			this->display();
+			return;
+		}
+	}
+};
+
+
+//void Grid::tileRandomSetNumber(int x, int y) {
+//	//random
+//	for (int l = 0; l < 2; l++) {
+//		int randomNumber = rand() % (this->sizeX * this->sizeY);
+//
+//		int index = coords[randomNumber];
+//		for (int j = randomNumber; j < sizeMax - 1; ++j)
+//		{
+//			coords[j] = coords[j + 1];
+//		}
+//
+//		sizeMax--;
+//
+//		int xcoord = index / this->sizeX;
+//		int ycoord = index % this->sizeY;
+//		int randomTuile = rand() % 10 + 1;
+//		if (randomTuile < 9)
+//		{
+//			Placement[xcoord][ycoord].value = 2;
+//		}
+//		else {
+//			Placement[xcoord][ycoord].value = 4;
+//		}
+//
+//	}
+//	//fin random
+//};
 
 std::vector<int> Grid::movement() {
 

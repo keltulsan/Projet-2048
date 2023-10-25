@@ -18,11 +18,12 @@ public:
 
 	void display();
 	void changeValueWithCoordinates(int x, int y, int value);
-
+	void tileRandomSetNumber();
 	void sumValue(int x, int y, int distX, int distY);
+	void moveTile(int x, int y, std::vector<int> movement);
 	bool canFuse(int x, int y, int distX, int distY);
 	bool detectCollide(int x, int y);
 	bool canMove(int x, int y, int distX, int distY);
-	void moveTile(int x, int y, std::vector<int> movement);
 	std::vector<int> movement();
+	
 };
