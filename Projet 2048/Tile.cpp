@@ -2,7 +2,7 @@
 #include <vector>
 #include "Tile.h"
 
-Tile::Tile(int value) {
+Tile::Tile(int value = 0) {
 	this->value = value;
 };
 

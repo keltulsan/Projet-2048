@@ -15,78 +15,109 @@
 #define KEY_Q 113
 #define KEY_D 100
 
+Grid::Grid(int x, int y) { //créer la grille
+	this->sizeX = x;
+	this->sizeY = y;
+	this->sizeMax = this->sizeX * this->sizeY;
 
-Grid::Grid(int x, int y) { //cree la grille
-	this->sizeX = x; 
-	this->sizeY = y; 
-	this->sizeMax = this->sizeX * this->sizeY; 
-	for (int i = 0; i < this->sizeY; i++) { 
-		for (int j = 0; j < this->sizeX; j++) { 
-			this->tab.push_back(new Tile(0));
+	this->tab.resize(this->sizeY);
+	for (int i = 0; i < this->sizeY; ++i) {
+		
+		for (int j = 0; j < this->sizeX; ++j) 
+		{
+			Tile* tile = new Tile(0);
+			this->tab[i].push_back(tile);
 		}
-	}
+	};
 };
 
 void Grid::display() { //affichage de la grille
 	std::cout << "\n";
-	for (int i = 0; i < this->sizeMax; i++) {
-		if (i % this->sizeY == 0 && i != 0)
-		{
-			std::cout << " | \n";
+	for (int i = 0; i < this->sizeY; i++) {
+		std::cout << " | ";
+		for (int j = 0; j < this->sizeX; j++) {
+			std::cout << this->tab[i][j]->getValue() << " | ";
 		}
-		std::cout << " | "  << this->tab[i]->getValue() ;
+		std::cout << std::endl;
 	}
-	std::cout << " | \n\n";
-};
-
-int Grid::getIdfromCoordinates(int x, int y) { //recupérer les coordonées 
-	int id = (x - 1) * this->sizeX + y;
-	return id;
+	std::cout << std::endl;
 };
 
 void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
-	int id = this->getIdfromCoordinates(x, y);
-	this->tab[id - 1]->setValue(value);
+	this->tab[x][y]->setValue(value);
 	this->display();
 };
 
-
-void Grid::sumValue(int id, int newId) { //additioner tous blocs
-	int newValue = this->tab[id]->getValue() + this->tab[newId]->getValue();
-	this->tab[newId]->setValue(newValue);
-	this->tab[id]->setValue(0);
+void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
+	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
+	this->tab[x + distX][y + distY]->setValue(newValue);
+	this->tab[x][y]->setValue(0);
 };
 
-
-bool Grid::canFuse(int id, int newId) { //pouvons nous fusionner ? 
-	if (this->tab[id]->getValue() == this->tab[newId]->getValue()) {
+bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
+	if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
 		return true;
 	}
 	else {
 		return false;
 	};
-}
+};
 
-
-bool Grid::detectCollide(int id, int newId) {
-	if (this->tab[newId]->getValue() != 0) {
+bool Grid::detectCollide(int x, int y) {
+	if (this->tab[x][y]->getValue() != 0) {
 		return true;
 	}
 	return false;
 };
 
-bool Grid::canMove(int id, int newId, int distance) { //possbilité de bouger les blocs avec distance {-1, 1}
-	std::cout << id << std::endl;
-	if (newId < 1  || newId > this->sizeMax || id % this->sizeY == 0 && distance == 1 || id % this->sizeY == 0 && distance == -1) {
-		// Verifie que l'id reste dans les bornes de la grille
-		// vérifie que l'id reste à droite et ne dépasse pas de la grille
-		// vérifie que l'id reste à gauche et ne dépasse pas de la grille
+bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger les blocs avec distance {-1, 1}
+	if (x + distX < 0  || y + distY < 0 || x + distX > (this->sizeY - 1) || y + distY > (this->sizeX - 1)) {
+		// Vérification que l'emplacement des cases après mouvement est toujours compris dans notre grille
 		return false;
 	}
 	return true;
 };
 
-//void Grid::randTuiles(int x, int y) {
+void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tuile/block
+
+	int distX = movement[0];
+	int distY = movement[1];
+
+	while (this->canMove(x, y, distX, distY)) {
+		std::cout << distX << "/" << distY << std::endl;
+		if (this->detectCollide(x + distX, y + distY)) {
+			std::cout << "collide" << std::endl;
+			if (this->canFuse(x, y, distX, distY)) {
+				std::cout << "fused" << std::endl;
+				this->sumValue(x, y, distX, distY);
+			}
+		}
+		else
+		{
+			this->tab[x + distX][y + distY]->setValue(this->tab[x][y]->getValue());
+			this->tab[x][y]->setValue(0);
+		}
+
+		if (distX > 0) {
+			x++;
+		}
+		else if (distX < 0) {
+			x--;
+		}
+		if (distY > 0) {
+			y++;
+		}
+		else if (distY < 0) {
+			y--;
+		}
+
+
+		this->display();
+
+	};
+};
+
+//void Grid::randTuiles(nit x, int y) {
 	//if this->tab[i]->getValue(){
 		//Tuile = rand() _tuile1;
 		//return();
@@ -95,77 +126,38 @@ bool Grid::canMove(int id, int newId, int distance) { //possbilité de bouger les
 		//if
 //}
 
+std::vector<int> Grid::movement() {
+	std::vector<int> distance;
 
-
-void Grid::moveTile(int x , int y, int movement) { //deplacer les tuile/block
-	int id = this->getIdfromCoordinates(x, y);
-	int newId = id + movement;
-
-	while (this->canMove(id, newId, movement)) {
-		std::cout << id << "/" << newId << std::endl;
-		if (this->detectCollide(id, newId)) {
-			std::cout << "collide" << std::endl;
-			if (this->canFuse(id, newId)) {
-				std::cout << "fused" << std::endl;
-				this->sumValue(id, newId);
-			}
-		}
-		else
-		{
-			this->tab[newId]->setValue(this->tab[id]->getValue());
-			this->tab[id]->setValue(0);
-		}
-		if (movement > 0) {
-			id++;
-			newId++;
-		}
-		else if (movement < 0) {
-			id--;
-			newId--;
-		}
-		this->display();
-		
-	};
-};
-
-//void Grid::moveTile(int x, int y, int movement) { //deplacer les tuile/block
-//	int id = this->getIdfromCoordinates(x, y) - 1;
-//	int newId = id + movement;
-//	if (this->canMove(id, newId, movement)) {
-//		if (this->detectCollide(id, newId)) {
-//			if (this->canFuse(id, newId)) {
-//				this->sumValue(id, newId);
-//			}
-//		}
-//		else {
-//			this->tab[newId]->setValue(this->tab[id]->getValue());
-//			this->tab[id]->setValue(0);
-//		}
-//		//system("CLS");
-//		this->display();
-//	}
-//};
-
-
-int Grid::movement() {
 	while (1) {
 		int keyValue = _getch();
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
-			return -this->sizeX;   //key up
+			//key up
+			distance.push_back(-1); // x
+			distance.push_back(0); // y
+			return distance;
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
-			return this->sizeX;   // key down
+			// key down
+			distance.push_back(1); // x
+			distance.push_back(0); // y
+			return distance;
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
-			return -1;  // key left
+			// key left
+			distance.push_back(0); // x
+			distance.push_back(-1); // y
+			return distance;
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
-			return 1;  // key right
+			// key right
+			distance.push_back(0); // x
+			distance.push_back(1); // y
+			return distance;
 		}
-
 	}
 };

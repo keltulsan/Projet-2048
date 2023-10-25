@@ -16,6 +16,9 @@
     <Filter Include="Fichiers sources\Grid">
       <UniqueIdentifier>{f4cbc433-edad-44ad-ab2c-d735e32b28cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Tile">
+      <UniqueIdentifier>{73b97ba9-1564-4757-b419-3ecdb089aed1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,10 +27,16 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Fichiers sources\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Fichiers sources\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Grid.h">
-      <Filter>Fichiers sources\Grid</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
