@@ -32,6 +32,10 @@ Grid::Grid(int x, int y) { //créer la grille
 	};
 };
 
+int Grid::getIdByCoordinates(int x, int y) {
+	return x * this->sizeY + y;
+}
+
 void Grid::display() { //affichage de la grille
 	 //system("CLS");
     int maxSize = log10(4 * pow(2, (this->sizeX * this->sizeY))) - .5f; // size maximale que prendra la taille d'une box par rapport à la taille de la grille
@@ -175,8 +179,8 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 void Grid::tileRandomSetNumber() 
 {
 	int randomNumber = rand() % 10 + 1;
-	std::vector<int> usedX;
-	std::vector<int> usedY;
+	std::vector<int> tabPossiblePlace = this->possibleGridPlace();
+
 	while (1) 
 	{
 		int randomX = rand() % (this->sizeX); // index x random
@@ -195,6 +199,21 @@ void Grid::tileRandomSetNumber()
 		}
 	}
 };
+
+std::vector<int> Grid::possibleGridPlace() {
+	std::vector<int> tabPossiblePlace;
+	for (int i = 0; i < this->sizeY; i++) {
+		for (int j = 0; j < this->sizeX; j++) {
+			if (this->tab[i][j]->getValue() == 0) 
+			{
+				tabPossiblePlace.push_back(this->getIdByCoordinates(i, j));
+			}
+		}
+	}
+	return tabPossiblePlace;
+}
+
+
 
 
 //void Grid::tileRandomSetNumber(int x, int y) {
