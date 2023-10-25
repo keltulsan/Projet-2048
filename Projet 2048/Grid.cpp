@@ -36,6 +36,9 @@ int Grid::getIdByCoordinates(int x, int y) {
 	return x * this->sizeY + y;
 }
 
+std::vector<int> Grid::getCoordinatesById(int id) {
+}
+
 void Grid::display() { //affichage de la grille
 	 //system("CLS");
     int maxSize = log10(4 * pow(2, (this->sizeX * this->sizeY))) - .5f; // size maximale que prendra la taille d'une box par rapport à la taille de la grille

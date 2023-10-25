@@ -27,5 +27,6 @@ public:
 	bool canMove(int x, int y, int distX, int distY);
 	std::vector<int> movement();
 	std::vector<int> possibleGridPlace();
+	std::vector<int> getCoordinatesById(int id);
 	
 };
