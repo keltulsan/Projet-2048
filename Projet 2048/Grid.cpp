@@ -1,6 +1,7 @@
 //inclusion
 #include <iostream>
 #include <vector>
+#include <string>
 #include <stdlib.h>
 #include <conio.h>
 #include "Grid.h"
@@ -32,16 +33,72 @@ Grid::Grid(int x, int y) { //créer la grille
 };
 
 void Grid::display() { //affichage de la grille
-	std::cout << "\n";
-	for (int i = 0; i < this->sizeY; i++) {
-		std::cout << " | ";
-		for (int j = 0; j < this->sizeX; j++) {
-			std::cout << this->tab[i][j]->getValue() << " | ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
+	 //system("CLS");
+    int maxSize = log10(4 * pow(2, (this->sizeX * this->sizeY))) - .5f; // size maximale que prendra la taille d'une box par rapport à la taille de la grille
+
+	/* Initialisation des variables ensuite affichée */
+    std::string preString = " ";
+    std::string verticalSeperation = " | ";
+    std::string horizontalSeperation = "  ";
+
+	// init de l'affichage au dessus des box
+    for (int i = 0; i < (maxSize + 4) * this->sizeX - 1; i++)
+    {
+        horizontalSeperation += "-";
+    }
+
+	// init de l'affichage à l'intérieur des box hors la ligne qui contient les chiffres
+    std::string horizontalEmptySeperation = verticalSeperation;
+    for (int i = 0; i < this->sizeX; i++)
+    {
+        for (int i = 0; i < maxSize +1; i++)
+        {
+            horizontalEmptySeperation += preString;
+        }
+        horizontalEmptySeperation += verticalSeperation;
+    }
+
+	/* Affichage de la grille de jeu */
+    for (int j = 0; j < this->sizeY; j++)
+    {
+		std::cout << std::endl << horizontalSeperation;
+
+		// affichage des espaces vides à l'intérieur de la box
+        for (int k = 0; k < ((maxSize + .5f) / 2 - .5f) / 2; k++)
+        {
+			std::cout << std::endl << horizontalEmptySeperation;
+        }
+		std::cout << std::endl << verticalSeperation;
+
+		// affichage de ligne comprenant le nombre
+        for (int i = 0; i < this->sizeX; i++)
+        {
+            int len = (maxSize - (this->tab[j][i]->getValue() == 0 ? 1 : log10(this->tab[j][i]->getValue()))); // calcule permettant de récupérer la longueur de la box sans la taille du chiffre
+            
+			/* Affichage du nombre au centre droit de la box */
+			for (int k = 0; k < (len + .5f) /2; k++)
+            {
+				std::cout << preString;
+            }
+			std::cout << this->tab[j][i]->getValue();
+            for (int k = 0; k < (len - .5f) / 2; k++)
+            {
+				std::cout << preString;
+            }
+			std::cout << verticalSeperation;
+        }
+
+		// affichage des espaces vides à l'intérieur de la box
+        for (int k = 0; k < ((maxSize + .5f) / 2 - .5f) / 2; k++)
+        {
+			std::cout << std::endl << horizontalEmptySeperation;
+        }
+    }
+
+	// affichage de la ligne du bas de la grille
+	std::cout << std::endl << horizontalSeperation;
 };
+
 
 void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
 	this->tab[x][y]->setValue(value);
@@ -110,8 +167,6 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 		else if (distY < 0) {
 			y--;
 		}
-
-
 		this->display();
 
 	};
@@ -127,37 +182,29 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 //}
 
 std::vector<int> Grid::movement() {
-	std::vector<int> distance;
 
 	while (1) {
 		int keyValue = _getch();
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 			//key up
-			distance.push_back(-1); // x
-			distance.push_back(0); // y
-			return distance;
+			return std::vector<int>{-1, 0}; // x, y
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 			// key down
-			distance.push_back(1); // x
-			distance.push_back(0); // y
-			return distance;
+			return std::vector<int>{1, 0}; // x, y
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 			// key left
-			distance.push_back(0); // x
-			distance.push_back(-1); // y
-			return distance;
+			return std::vector<int>{0, -1}; // x, y
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 			// key right
-			distance.push_back(0); // x
-			distance.push_back(1); // y
-			return distance;
+			return std::vector<int>{0, 1}; // x, y
 		}
+
 	}
 };

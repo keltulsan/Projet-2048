@@ -9,8 +9,8 @@ int main()
 {
     Grid* o_grid = new Grid(4, 4);
     o_grid->display();
-    o_grid->changeValueWithCoordinates(0, 3, 8);
-    o_grid->changeValueWithCoordinates(2, 3, 8);
+    o_grid->changeValueWithCoordinates(0, 3, 512);
+    o_grid->changeValueWithCoordinates(2, 3, 512);
 
 
     while (1) {
