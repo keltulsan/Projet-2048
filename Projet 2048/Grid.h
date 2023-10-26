@@ -28,15 +28,17 @@ public:
 	void changeValueWithCoordinates(int x, int y, int value); // #DEPRECATED
 	void tileSetRandomNumber(int loop);
 	void sumValue(int x, int y, int distX, int distY);
+	void fusion(int x, int y, int distX, int distY);
+	void movement(int x, int y, int distX, int distY);
 	void moveTile(int x, int y, std::vector<int> movement);
 	void searchGridPlace();
 	void game();
 	int getIdByCoordinates(int x, int y); // #DEPRECATED
-	bool canFuse(int x, int y, int distX, int distY, bool isFused);
+	bool canFuse(int x, int y, int distX, int distY);
 	bool detectCollide(int x, int y);
 	bool canMove(int x, int y, int distX, int distY);
 	bool conditionGameWin();
 	bool conditionGameLoose();
-	std::vector<int> movement();
+	std::vector<int> controllers();
 	Point getCoordinatesById(int id); // #DEPRECATED
 };

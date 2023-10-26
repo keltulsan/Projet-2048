@@ -145,21 +145,14 @@ void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous bloc
 	this->tab[x][y]->setValue(0);
 };
 
-bool Grid::canFuse(int x, int y, int distX, int distY, bool isFused) { //pouvons nous fusionner ? 
-	if (isFused == false)
-	{
-		if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
-			return true;
-		}
-		else {
-			return false;
-		};
+bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
+	if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
+		return true;
 	}
-	else 
-	{
+	else {
 		return false;
-	}
-	
+	};
+
 };
 
 bool Grid::detectCollide(int x, int y) {
@@ -177,24 +170,28 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 	return true;
 };
 
-void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tuile/block
+void Grid::fusion(int x, int y, int distX, int distY) {
+	if (this->canFuse(x, y, distX, distY)) {
+		std::cout << "fused" << std::endl;
+		this->sumValue(x, y, distX, distY);
+	}
+}
 
+void Grid::moveTile(int x, int y, std::vector<int> movement) {
 	int distX = movement[0];
 	int distY = movement[1];
-	bool isFused = false;
-	bool isCollide = false;
+	this->movement(x, y, distX, distY);
+	this->fusion(x, y, distX, distY);
+	this->movement(x, y, distX, distY);
 
-	while (!isCollide)
-	{
-		if (this->canMove(x, y, distX, distY)) {
+}
+
+void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/block
+
+		while (this->canMove(x, y, distX, distY)) {
 			std::cout << distX << "/" << distY << std::endl;
 			if (this->detectCollide(x + distX, y + distY)) {
 				std::cout << "collide" << std::endl;
-				if (this->canFuse(x, y, distX, distY, isFused)) {
-					std::cout << "fused" << std::endl;
-					this->sumValue(x, y, distX, distY);
-				}
-				isCollide = true;
 			}
 			else
 			{
@@ -215,7 +212,6 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 				y--;
 			}
 			this->display();
-		}
 	}
 }
 
@@ -254,7 +250,7 @@ void Grid::searchGridPlace() {
 	}
 }
 
-std::vector<int> Grid::movement() {
+std::vector<int> Grid::controllers() {
 
 	while (1) {
 		int keyValue = _getch();
@@ -306,9 +302,6 @@ bool Grid::conditionGameLoose() {
 void Grid::game() {
 	this->searchGridPlace();
 	//this->tileSetRandomNumber(2);
-	this->changeValueWithCoordinates(0, 0, 2);
-	this->changeValueWithCoordinates(1, 0, 2);
-	this->changeValueWithCoordinates(2, 0, 4);
 	this->display();
 	while (1) {
 		if (this->conditionGameLoose()) {
@@ -320,8 +313,8 @@ void Grid::game() {
 			return;
 		}
 		else {
-			std::vector<int> dist = this->movement();
-			this->moveTile(0, 0, dist);
+			std::vector<int> dist = this->controllers();
+			this->movement(0, 0, dist[0], dist[1]);
 		}
 	}
 }
