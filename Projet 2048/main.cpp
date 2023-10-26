@@ -10,9 +10,11 @@ int main()
     srand(time(NULL));
 
     Grid* o_grid = new Grid(4, 4);
+    o_grid->searchGridPlace();
     //o_grid->display();
     o_grid->tileSetRandomNumber(2);
-    //std::cout << o_grid->getIdByCoordinates(0, 0);
+    o_grid->changeValueWithCoordinates(0, 0, 2048);
+    o_grid->conditionGameWin();
 
 
     /*while (1) {

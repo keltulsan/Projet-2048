@@ -35,13 +35,13 @@ Grid::Grid(int x, int y) { //créer la grille
 	};
 };
 
-//#DEPRECATED
+// #DEPRECATED
 int Grid::getIdByCoordinates(int x, int y) {
 	return x * this->sizeY + y;
 }
 
 
-//#DEPRECATED
+// #DEPRECATED
 Point Grid::getCoordinatesById(int id) {
 	Point o_Id;
 
@@ -129,15 +129,21 @@ void Grid::display() { //affichage de la grille
 	std::cout << std::endl << horizontalSeperation;
 };
 
-
+// #DEPRECATED
 void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
 	this->tab[x][y]->setValue(value);
+	if (value == 2048) {
+		this->is2048.push_back(this->tab[x][y]);
+	}
 	this->display();
 };
 
 void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
 	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
 	this->tab[x + distX][y + distY]->setValue(newValue);
+	if (newValue == 2048) {
+		this->is2048.push_back(this->tab[x + distX][y + distY]);
+	}
 	this->tab[x][y]->setValue(0);
 };
 
@@ -206,35 +212,36 @@ void Grid::tileSetRandomNumber(int loop)
 {
 	for (int i = 0; i < loop; i++) 
 	{
-		std::vector<Tile*> tabPossiblePlace = this->searchGridPlace(0);  // liste d'adresse mémoire des tiles
-		int randomNumber = rand() % (tabPossiblePlace.size() - 1); // index random parmi une liste
-
-		if (tabPossiblePlace[randomNumber]->getValue() == 0)
+		int randomNumber = rand() % (this->possibleGridPlace.size() - 1); // index random parmi une liste d'adresse mémoire de tile
+		double is2048 = rand() % (2048*2048);
+		if (this->possibleGridPlace[randomNumber]->getValue() == 0)
 		{
-			if (randomNumber < 9) {
-				tabPossiblePlace[randomNumber]->setValue(2);
+			if (is2048 == 0){ // 1 chance sur 2048 puissance 2 d'avoir un 2048
+				this->possibleGridPlace[randomNumber]->setValue(2048);
+				this->is2048.push_back(this->possibleGridPlace[randomNumber]);
 			}
+			else if (randomNumber < 9) {
+				this->possibleGridPlace[randomNumber]->setValue(2);
+			}	
 			else {
-				tabPossiblePlace[randomNumber]->setValue(4);
+				this->possibleGridPlace[randomNumber]->setValue(4);
 			}
+			this->possibleGridPlace.erase(this->possibleGridPlace.begin() + randomNumber);
 		}
 	}
 	this->display();
 };
 
-std::vector<Tile*> Grid::searchGridPlace(int value) {
-	std::vector<Tile*> tabPossiblePlace;
+void Grid::searchGridPlace() {
 	for (int i = 0; i < this->sizeY; i++) {
 		for (int j = 0; j < this->sizeX; j++) {
-			if (this->tab[i][j]->getValue() == value) 
+			if (this->tab[i][j]->getValue() == 0) 
 			{
-				tabPossiblePlace.push_back(this->tab[i][j]);
+				this->possibleGridPlace.push_back(this->tab[i][j]);
 			}
 		}
 	}
-	return tabPossiblePlace;
 }
-
 std::vector<int> Grid::movement() {
 
 	while (1) {
@@ -260,5 +267,25 @@ std::vector<int> Grid::movement() {
 			return std::vector<int>{0, 1}; // x, y
 		}
 
+	}
+};
+
+void Grid::conditionGameWin() {
+	//condition de win
+	if (this->is2048.size() >= 1) {
+		std::cout << std::endl << "You Win !";
+	}
+	else {
+		return;
+	}
+};
+
+void Grid::conditionGameLoose() {
+	//condition de loose
+	if (this->possibleGridPlace.empty()) {
+		std::cout << std::endl << "You Loose :( ";
+	}
+	else {
+		return;
 	}
 };
