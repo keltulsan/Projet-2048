@@ -4,6 +4,12 @@
 #include <vector>
 #include "Tile.h"
 
+//#DEPRECATED
+struct Point
+{
+	int x;
+	int y;
+};
 
 class Grid
 {
@@ -26,6 +32,6 @@ public:
 	bool detectCollide(int x, int y);
 	bool canMove(int x, int y, int distX, int distY);
 	std::vector<int> movement();
-	std::vector<int> possibleGridPlace();
-	std::vector<int> getCoordinatesById(int id);
+	std::vector<Tile*> searchGridPlace(int value);
+	Point getCoordinatesById(int id);
 };

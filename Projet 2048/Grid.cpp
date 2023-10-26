@@ -16,6 +16,9 @@
 #define KEY_Q 113
 #define KEY_D 100
 
+
+
+
 Grid::Grid(int x, int y) { //créer la grille
 	this->sizeX = x;
 	this->sizeY = y;
@@ -32,28 +35,31 @@ Grid::Grid(int x, int y) { //créer la grille
 	};
 };
 
+//#DEPRECATED
 int Grid::getIdByCoordinates(int x, int y) {
 	return x * this->sizeY + y;
 }
 
-std::vector<int> Grid::getCoordinatesById(int id) {
-	int x = 0;
-	int y = 0;
-	std::vector<int> tabOfId;
+
+//#DEPRECATED
+Point Grid::getCoordinatesById(int id) {
+	Point o_Id;
+
+	o_Id.x = 0;
+	o_Id.y = 0;
+
 	while ( id >= 0) {
 
 		if (id > this->sizeX - 1) {
 			id -= this->sizeX;
-			x++;
+			o_Id.x++;
 		}
 		else {
-			y = id;
+			o_Id.y++;
 			id = -1;
 		}
 	}
-	tabOfId.push_back(x);
-	tabOfId.push_back(y);
-	return tabOfId;
+	return o_Id;
 }
 
 void Grid::display() { //affichage de la grille
@@ -198,71 +204,36 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 
 void Grid::tileSetRandomNumber(int loop) 
 {
-	int randomNumber = rand() % 10 + 1;
-	std::vector<int> tabPossiblePlace = this->possibleGridPlace();
-
 	for (int i = 0; i < loop; i++) 
 	{
-		int randomNumber = rand() % (tabPossiblePlace.size() - 1); // index random parmi une liste d'index
-		int randomX = (this->getCoordinatesById(tabPossiblePlace[randomNumber]))[0];
-		int randomY = (this->getCoordinatesById(tabPossiblePlace[randomNumber]))[1];
+		std::vector<Tile*> tabPossiblePlace = this->searchGridPlace(0);  // liste d'adresse mémoire des tiles
+		int randomNumber = rand() % (tabPossiblePlace.size() - 1); // index random parmi une liste
 
-		if (this->tab[randomX][randomY]->getValue() == 0)
+		if (tabPossiblePlace[randomNumber]->getValue() == 0)
 		{
 			if (randomNumber < 9) {
-				this->tab[randomX][randomY]->setValue(2);
+				tabPossiblePlace[randomNumber]->setValue(2);
 			}
 			else {
-				this->tab[randomX][randomY]->setValue(4);
+				tabPossiblePlace[randomNumber]->setValue(4);
 			}
 		}
 	}
 	this->display();
 };
 
-std::vector<int> Grid::possibleGridPlace() {
-	std::vector<int> tabPossiblePlace;
+std::vector<Tile*> Grid::searchGridPlace(int value) {
+	std::vector<Tile*> tabPossiblePlace;
 	for (int i = 0; i < this->sizeY; i++) {
 		for (int j = 0; j < this->sizeX; j++) {
-			if (this->tab[i][j]->getValue() == 0) 
+			if (this->tab[i][j]->getValue() == value) 
 			{
-				tabPossiblePlace.push_back(this->getIdByCoordinates(i, j));
+				tabPossiblePlace.push_back(this->tab[i][j]);
 			}
 		}
 	}
 	return tabPossiblePlace;
 }
-
-
-
-
-//void Grid::tileRandomSetNumber(int x, int y) {
-//	//random
-//	for (int l = 0; l < 2; l++) {
-//		int randomNumber = rand() % (this->sizeX * this->sizeY);
-//
-//		int index = coords[randomNumber];
-//		for (int j = randomNumber; j < sizeMax - 1; ++j)
-//		{
-//			coords[j] = coords[j + 1];
-//		}
-//
-//		sizeMax--;
-//
-//		int xcoord = index / this->sizeX;
-//		int ycoord = index % this->sizeY;
-//		int randomTuile = rand() % 10 + 1;
-//		if (randomTuile < 9)
-//		{
-//			Placement[xcoord][ycoord].value = 2;
-//		}
-//		else {
-//			Placement[xcoord][ycoord].value = 4;
-//		}
-//
-//	}
-//	//fin random
-//};
 
 std::vector<int> Grid::movement() {
 
