@@ -155,10 +155,11 @@ bool Grid::canFuse(int x, int y, int distX, int distY, bool isFused) { //pouvons
 			return false;
 		};
 	}
-	else
+	else 
 	{
 		return false;
 	}
+	
 };
 
 bool Grid::detectCollide(int x, int y) {
@@ -181,39 +182,42 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 	int distX = movement[0];
 	int distY = movement[1];
 	bool isFused = false;
+	bool isCollide = false;
 
-	while (this->canMove(x, y, distX, distY)) {
-		std::cout << distX << "/" << distY << std::endl;
-		if (this->detectCollide(x + distX, y + distY)) {
-			std::cout << "collide" << std::endl;
-			if (this->canFuse(x, y, distX, distY, isFused)) {
-				std::cout << "fused" << std::endl;
-				this->sumValue(x, y, distX, distY);
-				isFused = true;
+	while (!isCollide)
+	{
+		if (this->canMove(x, y, distX, distY)) {
+			std::cout << distX << "/" << distY << std::endl;
+			if (this->detectCollide(x + distX, y + distY)) {
+				std::cout << "collide" << std::endl;
+				if (this->canFuse(x, y, distX, distY, isFused)) {
+					std::cout << "fused" << std::endl;
+					this->sumValue(x, y, distX, distY);
+				}
+				isCollide = true;
 			}
-		}
-		else
-		{
-			this->tab[x + distX][y + distY]->setValue(this->tab[x][y]->getValue());
-			this->tab[x][y]->setValue(0);
-		}
+			else
+			{
+				this->tab[x + distX][y + distY]->setValue(this->tab[x][y]->getValue());
+				this->tab[x][y]->setValue(0);
+			}
 
-		if (distX > 0) {
-			x++;
+			if (distX > 0) {
+				x++;
+			}
+			else if (distX < 0) {
+				x--;
+			}
+			if (distY > 0) {
+				y++;
+			}
+			else if (distY < 0) {
+				y--;
+			}
+			this->display();
 		}
-		else if (distX < 0) {
-			x--;
-		}
-		if (distY > 0) {
-			y++;
-		}
-		else if (distY < 0) {
-			y--;
-		}
-		this->display();
-
-	};
-};
+	}
+}
 
 void Grid::tileSetRandomNumber(int loop) 
 {
@@ -301,7 +305,10 @@ bool Grid::conditionGameLoose() {
 
 void Grid::game() {
 	this->searchGridPlace();
-	this->tileSetRandomNumber(2);
+	//this->tileSetRandomNumber(2);
+	this->changeValueWithCoordinates(0, 0, 2);
+	this->changeValueWithCoordinates(1, 0, 2);
+	this->changeValueWithCoordinates(2, 0, 4);
 	this->display();
 	while (1) {
 		if (this->conditionGameLoose()) {
@@ -314,7 +321,6 @@ void Grid::game() {
 		}
 		else {
 			std::vector<int> dist = this->movement();
-			this->changeValueWithCoordinates(0, 0, 2);
 			this->moveTile(0, 0, dist);
 		}
 	}
