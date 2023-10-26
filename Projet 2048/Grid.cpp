@@ -16,25 +16,6 @@
 #define KEY_Q 113
 #define KEY_D 100
 
-
-
-
-Grid::Grid(int x, int y) { //créer la grille
-	this->sizeX = x;
-	this->sizeY = y;
-	this->sizeMax = this->sizeX * this->sizeY;
-
-	this->tab.resize(this->sizeY);
-	for (int i = 0; i < this->sizeY; ++i) {
-		
-		for (int j = 0; j < this->sizeX; ++j) 
-		{
-			Tile* tile = new Tile(0);
-			this->tab[i].push_back(tile);
-		}
-	};
-};
-
 // #DEPRECATED
 int Grid::getIdByCoordinates(int x, int y) {
 	return x * this->sizeY + y;
@@ -61,6 +42,32 @@ Point Grid::getCoordinatesById(int id) {
 	}
 	return o_Id;
 }
+
+// #DEPRECATED
+void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
+	this->tab[x][y]->setValue(value);
+	if (value == 2048) {
+		this->is2048.push_back(this->tab[x][y]);
+	}
+	this->display();
+};
+
+
+Grid::Grid(int x, int y) { //créer la grille
+	this->sizeX = x;
+	this->sizeY = y;
+	this->sizeMax = this->sizeX * this->sizeY;
+
+	this->tab.resize(this->sizeY);
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			Tile* tile = new Tile(0);
+			this->tab[i].push_back(tile);
+		}
+	};
+};
 
 void Grid::display() { //affichage de la grille
 	 //system("CLS");
@@ -129,15 +136,6 @@ void Grid::display() { //affichage de la grille
 	std::cout << std::endl << horizontalSeperation;
 };
 
-// #DEPRECATED
-void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
-	this->tab[x][y]->setValue(value);
-	if (value == 2048) {
-		this->is2048.push_back(this->tab[x][y]);
-	}
-	this->display();
-};
-
 void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
 	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
 	this->tab[x + distX][y + distY]->setValue(newValue);
@@ -147,13 +145,20 @@ void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous bloc
 	this->tab[x][y]->setValue(0);
 };
 
-bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
-	if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
-		return true;
+bool Grid::canFuse(int x, int y, int distX, int distY, bool isFused) { //pouvons nous fusionner ? 
+	if (isFused == false)
+	{
+		if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
+			return true;
+		}
+		else {
+			return false;
+		};
 	}
-	else {
+	else
+	{
 		return false;
-	};
+	}
 };
 
 bool Grid::detectCollide(int x, int y) {
@@ -175,14 +180,16 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 
 	int distX = movement[0];
 	int distY = movement[1];
+	bool isFused = false;
 
 	while (this->canMove(x, y, distX, distY)) {
 		std::cout << distX << "/" << distY << std::endl;
 		if (this->detectCollide(x + distX, y + distY)) {
 			std::cout << "collide" << std::endl;
-			if (this->canFuse(x, y, distX, distY)) {
+			if (this->canFuse(x, y, distX, distY, isFused)) {
 				std::cout << "fused" << std::endl;
 				this->sumValue(x, y, distX, distY);
+				isFused = true;
 			}
 		}
 		else
@@ -242,6 +249,7 @@ void Grid::searchGridPlace() {
 		}
 	}
 }
+
 std::vector<int> Grid::movement() {
 
 	while (1) {
@@ -270,22 +278,44 @@ std::vector<int> Grid::movement() {
 	}
 };
 
-void Grid::conditionGameWin() {
+bool Grid::conditionGameWin() {
 	//condition de win
 	if (this->is2048.size() >= 1) {
-		std::cout << std::endl << "You Win !";
+		return true;
 	}
 	else {
-		return;
+		return false;
 	}
 };
 
-void Grid::conditionGameLoose() {
-	//condition de loose
+bool Grid::conditionGameLoose() {
+	//condition de lose
 	if (this->possibleGridPlace.empty()) {
-		std::cout << std::endl << "You Loose :( ";
+		return true;
 	}
 	else {
-		return;
+		return false;
 	}
 };
+
+
+void Grid::game() {
+	this->searchGridPlace();
+	this->tileSetRandomNumber(2);
+	this->display();
+	while (1) {
+		if (this->conditionGameLoose()) {
+			std::cout << std::endl << "You Lose :( ";
+			return;
+		}
+		else if (this->conditionGameWin()) {
+			std::cout << std::endl << "You Win !";
+			return;
+		}
+		else {
+			std::vector<int> dist = this->movement();
+			this->changeValueWithCoordinates(0, 0, 2);
+			this->moveTile(0, 0, dist);
+		}
+	}
+}

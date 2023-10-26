@@ -25,17 +25,18 @@ public:
 	Grid(int x, int y);
 
 	void display();
-	void changeValueWithCoordinates(int x, int y, int value);
+	void changeValueWithCoordinates(int x, int y, int value); // #DEPRECATED
 	void tileSetRandomNumber(int loop);
 	void sumValue(int x, int y, int distX, int distY);
 	void moveTile(int x, int y, std::vector<int> movement);
 	void searchGridPlace();
-	void conditionGameWin();
-	void conditionGameLoose();
-	int getIdByCoordinates(int x, int y);
-	bool canFuse(int x, int y, int distX, int distY);
+	void game();
+	int getIdByCoordinates(int x, int y); // #DEPRECATED
+	bool canFuse(int x, int y, int distX, int distY, bool isFused);
 	bool detectCollide(int x, int y);
 	bool canMove(int x, int y, int distX, int distY);
+	bool conditionGameWin();
+	bool conditionGameLoose();
 	std::vector<int> movement();
-	Point getCoordinatesById(int id);
+	Point getCoordinatesById(int id); // #DEPRECATED
 };
