@@ -49,7 +49,6 @@ void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la val
 	if (value == 2048) {
 		this->is2048.push_back(this->tab[x][y]);
 	}
-	this->display();
 };
 
 
@@ -138,11 +137,11 @@ void Grid::display() { //affichage de la grille
 
 void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
 	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
-	this->tab[x + distX][y + distY]->setValue(newValue);
+	this->tab[x][y]->setValue(newValue);
 	if (newValue == 2048) {
-		this->is2048.push_back(this->tab[x + distX][y + distY]);
+		this->is2048.push_back(this->tab[x][y]);
 	}
-	this->tab[x][y]->setValue(0);
+	this->tab[x + distX][y + distY]->setValue(0);
 };
 
 bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
@@ -170,49 +169,110 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 	return true;
 };
 
-void Grid::fusion(int x, int y, int distX, int distY) {
+bool Grid::fusion(int x, int y, int distX, int distY) {
+	std::cout << "Fusion function" << std::endl;
 	if (this->canFuse(x, y, distX, distY)) {
 		std::cout << "fused" << std::endl;
 		this->sumValue(x, y, distX, distY);
+		return true;
 	}
+	return false;
 }
 
-void Grid::moveTile(int x, int y, std::vector<int> movement) {
+void Grid::moveTile(std::vector<int> movement) {
 	int distX = movement[0];
 	int distY = movement[1];
-	this->movement(x, y, distX, distY);
-	this->fusion(x, y, distX, distY);
-	this->movement(x, y, distX, distY);
+	int x = 0;
+	int y = 0;
+
+	if (distY == 0) {
+		if (distX == 1)
+		{
+			y = this->sizeX;
+			x = 0;
+
+			// haut
+			for (int i = 0; i < y; i++) {
+				this->movement(x, i, distX, distY);
+			}
+		}
+		else if (distX == -1 )
+		{
+			y = this->sizeX;
+			x = this->sizeY;
+			// bat
+			for (int i = 0; i < x; i++) {
+				this->movement(x, i, distX, distY);
+			}
+		}
+
+	}
+	else if (distX == 0)
+	{
+		if (distY == 1)
+		{
+			y = 0;
+			x = this->sizeY;
+			//gauche
+			for (int i = 0; i < x; i++) {
+				this->movement(i, y, distX, distY);
+			}
+		}
+		else if (distY == -1)
+		{
+			y = this->sizeX;
+			x = this->sizeY;
+
+			//droite
+			for (int i = 0; i < x; i++) {
+				this->movement(i, y, distX, distY);
+			}
+
+		}
+	}
+
 
 }
 
 void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/block
 
-		while (this->canMove(x, y, distX, distY)) {
-			std::cout << distX << "/" << distY << std::endl;
-			if (this->detectCollide(x + distX, y + distY)) {
-				std::cout << "collide" << std::endl;
+	bool isFused = false;
+
+	while (this->canMove(x, y, distX, distY)) 
+	{
+		std::cout << x << "/" << y << std::endl;
+		if (this->detectCollide(x + distX, y + distY)) {
+			std::cout << "collide" << std::endl;
+			if (!isFused) {
+				isFused = this->fusion(x, y, distX, distY);
 			}
 			else
 			{
-				this->tab[x + distX][y + distY]->setValue(this->tab[x][y]->getValue());
-				this->tab[x][y]->setValue(0);
+				this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
+				this->tab[x + distX][y + distY]->setValue(0);
 			}
+		}
+		else
+		{
+			this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
+			this->tab[x + distX][y + distY]->setValue(0);
+		}
 
-			if (distX > 0) {
-				x++;
-			}
-			else if (distX < 0) {
-				x--;
-			}
-			if (distY > 0) {
-				y++;
-			}
-			else if (distY < 0) {
-				y--;
-			}
-			this->display();
+		if (distX > 0) {
+			x++;
+		}
+		else if (distX < 0) {
+			x--;
+		}
+		if (distY > 0) {
+			y++;
+		}
+		else if (distY < 0) {
+			y--;
+		}
+		this->display();
 	}
+	isFused = false;
 }
 
 void Grid::tileSetRandomNumber(int loop) 
@@ -257,22 +317,22 @@ std::vector<int> Grid::controllers() {
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 			//key up
-			return std::vector<int>{-1, 0}; // x, y
+			return std::vector<int>{1, 0}; // x, y
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 			// key down
-			return std::vector<int>{1, 0}; // x, y
+			return std::vector<int>{-1, 0}; // x, y
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 			// key left
-			return std::vector<int>{0, -1}; // x, y
+			return std::vector<int>{0, 1}; // x, y
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 			// key right
-			return std::vector<int>{0, 1}; // x, y
+			return std::vector<int>{0, -1}; // x, y
 		}
 
 	}
