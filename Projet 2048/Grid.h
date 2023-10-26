@@ -18,7 +18,7 @@ public:
 
 	void display();
 	void changeValueWithCoordinates(int x, int y, int value);
-	void tileRandomSetNumber();
+	void tileSetRandomNumber(int loop);
 	void sumValue(int x, int y, int distX, int distY);
 	void moveTile(int x, int y, std::vector<int> movement);
 	int getIdByCoordinates(int x, int y);
@@ -28,5 +28,4 @@ public:
 	std::vector<int> movement();
 	std::vector<int> possibleGridPlace();
 	std::vector<int> getCoordinatesById(int id);
-	
 };

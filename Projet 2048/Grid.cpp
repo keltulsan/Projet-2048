@@ -37,6 +37,23 @@ int Grid::getIdByCoordinates(int x, int y) {
 }
 
 std::vector<int> Grid::getCoordinatesById(int id) {
+	int x = 0;
+	int y = 0;
+	std::vector<int> tabOfId;
+	while ( id >= 0) {
+
+		if (id > this->sizeX - 1) {
+			id -= this->sizeX;
+			x++;
+		}
+		else {
+			y = id;
+			id = -1;
+		}
+	}
+	tabOfId.push_back(x);
+	tabOfId.push_back(y);
+	return tabOfId;
 }
 
 void Grid::display() { //affichage de la grille
@@ -179,16 +196,17 @@ void Grid::moveTile(int x, int y, std::vector<int> movement) { //deplacer les tu
 	};
 };
 
-void Grid::tileRandomSetNumber() 
+void Grid::tileSetRandomNumber(int loop) 
 {
 	int randomNumber = rand() % 10 + 1;
 	std::vector<int> tabPossiblePlace = this->possibleGridPlace();
 
-	while (1) 
+	for (int i = 0; i < loop; i++) 
 	{
-		int randomX = rand() % (this->sizeX); // index x random
-		int randomY = rand() % (this->sizeY); // index y random
-		if ( )
+		int randomNumber = rand() % (tabPossiblePlace.size() - 1); // index random parmi une liste d'index
+		int randomX = (this->getCoordinatesById(tabPossiblePlace[randomNumber]))[0];
+		int randomY = (this->getCoordinatesById(tabPossiblePlace[randomNumber]))[1];
+
 		if (this->tab[randomX][randomY]->getValue() == 0)
 		{
 			if (randomNumber < 9) {
@@ -197,10 +215,9 @@ void Grid::tileRandomSetNumber()
 			else {
 				this->tab[randomX][randomY]->setValue(4);
 			}
-			this->display();
-			return;
 		}
 	}
+	this->display();
 };
 
 std::vector<int> Grid::possibleGridPlace() {
