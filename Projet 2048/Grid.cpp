@@ -338,34 +338,34 @@ bool Grid::fusion(int x, int y, int distX, int distY) {
 //	}
 //}
 //
-//std::vector<int> Grid::controllers() {
-//
-//	while (1) {
-//		int keyValue = _getch();
-//
-//		if (KEY_UP == keyValue || KEY_Z == keyValue) {
-//			//key up
-//			this->moveUp();
-//		}
-//
-//		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
-//			// key down
-//			this->moveDown();
-//		}
-//
-//		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
-//			// key left
-//			this->moveLeft();
-//		}
-//
-//		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
-//			// key right
-//			this->moveRight();
-//		}
-//
-//	}
-//};
-//
+std::string Grid::controllers() {
+
+	while (1) {
+		int keyValue = _getch();
+
+		if (KEY_UP == keyValue || KEY_Z == keyValue) {
+			//key up
+			return "Up";
+		}
+
+		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
+			// key down
+			return "Down";
+		}
+
+		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
+			// key left
+			return "Left";
+		}
+
+		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
+			// key right
+			return "Right";
+		}
+
+	}
+};
+
 //bool Grid::conditionGameWin() {
 //	//condition de win
 //	if (this->is2048.size() >= 1) {
@@ -425,66 +425,175 @@ bool Grid::compare(int config[4][4])
 
 void Grid::moveRight(int x)
 {
+	/* Permet de faire un mouvement vers la droite */
+
 	int y = this->sizeX - 1;
 	int offset = 0;
+	int realOffset = 0;
 
-	for (int j = y; j >= 0; j--)
+	while (1)
 	{
-		if (this->tab[x][j]->getValue() == 0)
+		for (int j = y; j >= 0; j--)  // boucle qui regarde les valeurs de notre grille
 		{
-			offset--;
+			if (y <= 0)
+			{
+				// vérifie si nous sommes toujours dans la grille de jeu
+				return;
+			}
+			else if (this->tab[x][j]->getValue() == 0)
+			{
+				// ajoute une distance depuis laquelle devra se déplacer la case
+				offset--;
+			}
+			else if (this->tab[x][j]->getValue() != 0 && offset == 0)
+			{
+				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				y--;
+			}
+			else if (this->tab[x][j]->getValue() != 0 && realOffset == 0)
+			{
+				// permet de sauvegarder la bonne distance nécéssaire entre la case et le nombre de case avant
+				realOffset = offset;
+			}
 		}
+		// permet d'intervertir les cases
+		this->tab[x][y]->setValue(this->tab[x][y + realOffset]->getValue());
+		this->tab[x][y + realOffset]->setValue(0);
+
+		y--; // incrémente x dans le cas où l'on vient de modifier l'une des case
+		offset = 0;
+		realOffset = 0;
 	}
-	this->tab[x][y]->setValue(this->tab[x][y + offset]->getValue());
-	this->tab[x][y + offset]->setValue(0);
+
 }
 
 void Grid::moveLeft(int x)
 {
+	/* Permet de faire un mouvement vers la gauche */
+
 	int y = 0;
 	int offset = 0;
+	int realOffset = 0;
 
-	for (int j = 0; j < this->sizeY - 1; j++)
+	while (1)
 	{
-		if (this->tab[x][j]->getValue() == 0)
+		for (int j = y; j <= this->sizeX - 1; j++)
 		{
-			offset++;
+			if (y >= this->sizeX - 1)
+			{
+				// vérifie si nous sommes toujours dans la grille de jeu
+				return;
+			}
+			else if (this->tab[x][j]->getValue() == 0)
+			{
+				// ajoute une distance depuis laquelle devra se déplacer la case
+				offset++;
+			}
+			else if (this->tab[x][j]->getValue() != 0 && offset == 0)
+			{
+				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				y++;
+			}
+			else if (realOffset == 0 && this->tab[x][j]->getValue() != 0)
+			{
+				// permet de sauvegarder la bonne distance nécéssaire entre la case et le nombre de case avant
+				realOffset = offset;
+			}
 		}
+		// permet d'intervertir les cases
+		this->tab[x][y]->setValue(this->tab[x][y + realOffset]->getValue());
+		this->tab[x][y + realOffset]->setValue(0);
+
+		y++; // incrémente x dans le cas où l'on vient de modifier l'une des case
+		offset = 0;
+		realOffset = 0;
 	}
-	this->tab[x][y]->setValue(this->tab[x][y + offset]->getValue());
-	this->tab[x][y + offset]->setValue(0);
 }
 
 void Grid::moveUp(int y)
 {
+	/* Permet de faire un mouvement vers le haut */
+
 	int x = 0;
 	int offset = 0;
+	int realOffset = 0;
 
-	for (int i = 0; i < this->sizeY - 1; i++)
+	while (1)
 	{
-		if (this->tab[i][y]->getValue() == 0)
+		for (int i = x; i <= this->sizeY - 1; i++)  // boucle qui regarde les valeurs de notre grille
 		{
-			offset++;
+			if (x >= this->sizeY - 1)
+			{
+				// vérifie si nous sommes toujours dans la grille de jeu
+				return;
+			}
+			else if (this->tab[i][y]->getValue() == 0)
+			{
+				// ajoute une distance depuis laquelle devra se déplacer la case
+				offset++;
+			}
+			else if (this->tab[i][y]->getValue() != 0 && offset == 0)
+			{
+				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				x++;
+			}
+			else if (realOffset == 0 && this->tab[i][y]->getValue() != 0)
+			{
+				// permet de sauvegarder la bonne distance nécéssaire entre la case et le nombre de case avant
+				realOffset = offset;
+			}
 		}
+		// permet d'intervertir les cases
+		this->tab[x][y]->setValue(this->tab[x + realOffset][y]->getValue());
+		this->tab[x + realOffset][y]->setValue(0);
+
+		x++; // incrémente x dans le cas où l'on vient de modifier l'une des case
+		offset = 0;
+		realOffset = 0;
 	}
-	this->tab[x][y]->setValue(this->tab[x + offset][y]->getValue());
-	this->tab[x + offset][y]->setValue(0);
 }
 
 void Grid::moveDown(int y)
 {
+	/* Permet de faire un mouvement vers le bas */
+
 	int x = this->sizeY - 1;
 	int offset = 0;
+	int realOffset = 0;
 
-	for (int i = x; i >= 0; i--)
+	while (1)
 	{
-		if (this->tab[i][y]->getValue() == 0)
+		for (int i = x; i >= 0; i--)  // boucle qui regarde les valeurs de notre grille
 		{
-			offset--;
+			if (x <= 0)
+			{
+				// vérifie si nous sommes toujours dans la grille de jeu
+				return;
+			}
+			else if (this->tab[i][y]->getValue() == 0)
+			{
+				// ajoute une distance depuis laquelle devra se déplacer la case
+				offset--;
+			}
+			else if (this->tab[i][y]->getValue() != 0 && offset == 0)
+			{
+				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				x--;
+			}
+			else if (this->tab[i][y]->getValue() != 0 && realOffset == 0)
+			{
+				// permet de sauvegarder la bonne distance nécéssaire entre la case et le nombre de case avant
+				realOffset = offset;
+			}
 		}
+		// permet d'intervertir les cases
+		this->tab[x][y]->setValue(this->tab[x + realOffset][y]->getValue());
+		this->tab[x + realOffset][y]->setValue(0);
+
+		x--; // incrémente x dans le cas où l'on vient de modifier l'une des case
+		offset = 0;
+		realOffset = 0;
 	}
-	this->tab[x][y]->setValue(this->tab[x + offset][y]->getValue());
-	this->tab[x + offset][y]->setValue(0);
 }
 
 

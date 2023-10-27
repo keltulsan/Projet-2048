@@ -52,6 +52,6 @@ public:
 	bool canMove(int x, int y, int distX, int distY);
 	bool conditionGameWin();
 	bool conditionGameLoose();
-	std::vector<int> controllers();
+	std::string controllers();
 	Point getCoordinatesById(int id); // #DEPRECATED
 };
