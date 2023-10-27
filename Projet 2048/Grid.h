@@ -24,6 +24,9 @@ private:
 public:
 	Grid(int x, int y);
 
+	Grid(int config[4][4]);
+	bool compare(int config[4][4]);
+
 	void display();
 	void changeValueWithCoordinates(int x, int y, int value); // #DEPRECATED
 	void tileSetRandomNumber(int loop);

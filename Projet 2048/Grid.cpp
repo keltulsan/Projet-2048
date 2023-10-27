@@ -68,6 +68,23 @@ Grid::Grid(int x, int y) { //créer la grille
 	};
 };
 
+Grid::Grid(int config[4][4]) { //créer la grille
+	this->sizeX = 4;
+	this->sizeY = 4;
+	this->sizeMax = this->sizeX * this->sizeY;
+
+	this->tab.resize(this->sizeY);
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			Tile* tile = new Tile(config[i][j]);
+			this->tab[i].push_back(tile);
+		}
+	};
+};
+
+
 void Grid::display() { //affichage de la grille
 	 //system("CLS");
     int maxSize = log10(4 * pow(2, (this->sizeX * this->sizeY))) - .5f; // size maximale que prendra la taille d'une box par rapport à la taille de la grille
@@ -196,12 +213,14 @@ void Grid::moveTile(std::vector<int> movement) {
 				this->movement(x, i, distX, distY);
 			}
 		}
+
+
 		else if (distX == -1 )
 		{
 			y = this->sizeX;
 			x = this->sizeY;
-			// bat
-			for (int i = 0; i < x; i++) {
+			// bas
+			for (int i = 0; i < y; i++) {
 				this->movement(x, i, distX, distY);
 			}
 		}
@@ -246,8 +265,14 @@ void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/b
 			if (!isFused) {
 				isFused = this->fusion(x, y, distX, distY);
 			}
+			else if (tab[x + distX][y + distY]->getValue() != 0 && tab[x][y]->getValue() == 0) {
+				
+			}
 			else
 			{
+				std::cout << tab[x + distX][y + distY]->getValue() << std::endl;
+				std::cout << tab[x][y]->getValue() << std::endl;
+
 				this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
 				this->tab[x + distX][y + distY]->setValue(0);
 			}
@@ -256,6 +281,7 @@ void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/b
 		{
 			this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
 			this->tab[x + distX][y + distY]->setValue(0);
+			
 		}
 
 		if (distX > 0) {
@@ -273,6 +299,7 @@ void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/b
 		this->display();
 	}
 	isFused = false;
+	this->display();
 }
 
 void Grid::tileSetRandomNumber(int loop) 
@@ -377,4 +404,19 @@ void Grid::game() {
 			this->movement(0, 0, dist[0], dist[1]);
 		}
 	}
+}
+
+bool Grid::compare(int config[4][4])
+{
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			if (config[i][j] != this->tab[i][j]->getValue()) {
+				return false;
+			}
+
+		}
+	};
+	return true;
 }

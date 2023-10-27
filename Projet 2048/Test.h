@@ -7,5 +7,5 @@ public:
 	void fusion();
 	void randomSetUp();
 	void gridSetUp();
-	void move1();
+	void moveUp();
 };
