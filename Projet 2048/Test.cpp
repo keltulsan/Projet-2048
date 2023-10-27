@@ -116,17 +116,17 @@ void Test::moveUpSide()
 {
 	int start[4][4] =
 	{
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
+		{0,2,0,2},
+		{0,2,0,0},
+		{2,0,4,0},
 		{2,2,2,2},
 	};
 
 	int result[4][4] =
 	{
+		{2,2,4,2},
 		{2,2,2,2},
-		{0,0,0,0},
-		{0,0,0,0},
+		{0,2,0,0},
 		{0,0,0,0},
 	};
 
@@ -143,17 +143,17 @@ void Test::moveDownSide()
 	int start[4][4] =
 	{
 		{2,2,2,2},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
+		{0,4,0,0},
+		{0,4,0,0},
+		{0,4,0,0},
 	};
 
 	int result[4][4] =
 	{
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{2,2,2,2},
+		{0,2,0,0},
+		{0,4,0,0},
+		{0,4,0,0},
+		{2,4,2,2},
 	};
 
 	Grid grid(start);
@@ -169,17 +169,17 @@ void Test::moveRightSide()
 	int start[4][4] =
 	{
 		{2,0,0,0},
+		{0,0,0,0},
 		{2,0,0,0},
-		{2,0,0,0},
-		{2,0,0,0},
+		{0,0,0,0},
 	};
 
 	int result[4][4] =
 	{
 		{0,0,0,2},
+		{0,0,0,0},
 		{0,0,0,2},
-		{0,0,0,2},
-		{0,0,0,2},
+		{0,0,0,0},
 	};
 
 	Grid grid(start);
@@ -243,6 +243,115 @@ void Test::fusion()
 	std::cout << "Test Fusion: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 
 }
+
+void Test::fusionUpSide()
+{
+	int start[4][4] =
+	{
+		{2,0,0,0},
+		{2,0,0,0},
+		{2,0,0,0},
+		{0,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{4,0,0,0},
+		{0,0,0,0},
+		{2,0,0,0},
+		{0,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionUpSide();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Up Side: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionDownSide()
+{
+	int start[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,0,0},
+		{2,2,2,2},
+		{2,2,2,2},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{4,4,4,4},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionDownSide();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Down Side: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionLeftSide()
+{
+	int start[4][4] =
+	{
+		{2,2,0,0},
+		{16,16,0,0},
+		{2,4,0,0},
+		{8,4,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{4,0,0,0},
+		{32,0,0,0},
+		{2,4,0,},
+		{8,4,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionLeftSide();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Left Side: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionRightSide()
+{
+	int start[4][4] =
+	{
+		{0,0,2,2},
+		{0,0,0,0},
+		{0,0,8,2},
+		{0,0,4,4},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,4},
+		{0,0,0,0},
+		{0,0,8,2},
+		{0,0,0,8},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionRightSide();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Right Side: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
 
 
 

@@ -36,6 +36,18 @@ public:
 	void moveLeftSide();
 	void moveRightSide();
 
+	void fusionUpSide();
+	void fusionDownSide();
+	void fusionLeftSide();
+	void fusionRightSide();
+
+	void up();
+	void down();
+	void left();
+	void right();
+
+
+
 
 	void display();
 	void changeValueWithCoordinates(int x, int y, int value); // #DEPRECATED

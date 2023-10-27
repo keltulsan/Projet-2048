@@ -4,7 +4,6 @@ class Test {
 
 public:
 	Test();
-	void fusion();
 	void moveUp();
 	void moveDown();
 	void moveLeft();
@@ -13,5 +12,17 @@ public:
 	void moveDownSide();
 	void moveLeftSide();
 	void moveRightSide();
+	
+	void fusion();
+	void fusionUpSide();
+	void fusionDownSide();
+	void fusionLeftSide();
+	void fusionRightSide();
+
+	void up();
+	void down();
+	void left();
+	void right();
+
 	void controllers();
 };

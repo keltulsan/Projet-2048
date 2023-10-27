@@ -188,9 +188,7 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 };
 
 bool Grid::fusion(int x, int y, int distX, int distY) {
-	std::cout << "Fusion function" << std::endl;
 	if (this->canFuse(x, y, distX, distY)) {
-		std::cout << "fused" << std::endl;
 		this->sumValue(x, y, distX, distY);
 		return true;
 	}
@@ -627,4 +625,58 @@ void Grid::moveDownSide()
 	{
 		this->moveDown(j);
 	}
+}
+
+
+void Grid::fusionRightSide()
+{
+	for (int i = 0; i < this->sizeY; i++)
+	{
+		this->fusion(i, (this->sizeX - 1), 0, -1);
+	}
+}
+
+void Grid::fusionLeftSide()
+{
+	for (int i = 0; i < this->sizeY; i++)
+	{
+		this->fusion(i, 0, 0, 1);
+	}
+}
+
+void Grid::fusionUpSide()
+{
+	for (int j = 0; j < this->sizeX; j++)
+	{
+		this->fusion(0, j, 1, 0);
+	}
+}
+
+void Grid::fusionDownSide()
+{
+	for (int j = 0; j < this->sizeX; j++)
+	{
+		this->fusion((this->sizeY - 1), j, -1, 0);
+	}
+}
+
+
+void Grid::right()
+{
+
+}
+
+void Grid::left()
+{
+
+}
+
+void Grid::up()
+{
+
+}
+
+void Grid::down()
+{
+
 }

@@ -14,12 +14,15 @@ void IntegrationTest()
     o_test.moveLeft();
     o_test.moveUp();
     o_test.moveDown();
-    /*
     o_test.moveRightSide();
     o_test.moveLeftSide();
     o_test.moveUpSide();
-    o_test.moveDownSide();*/
+    o_test.moveDownSide();
     o_test.fusion();
+    o_test.fusionUpSide();
+    o_test.fusionDownSide();
+    o_test.fusionLeftSide();
+    o_test.fusionRightSide();
 
     //o_test.controllers();
 
