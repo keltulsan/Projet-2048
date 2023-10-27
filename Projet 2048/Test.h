@@ -8,4 +8,7 @@ public:
 	void randomSetUp();
 	void gridSetUp();
 	void moveUp();
+	void moveDown();
+	void moveLeft();
+	void moveRight();
 };

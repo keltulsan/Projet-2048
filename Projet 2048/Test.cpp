@@ -30,8 +30,88 @@ void Test::moveUp()
 	};
 
 	Grid grid(start);
-	grid.movement(0, 0, 1, 0);
+	//grid.display();
+	grid.moveUp();
+	//grid.display();
 	bool isSuccess = grid.compare(result);
-	std::cout << "Test Result: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+	std::cout << "Test Result Move Up: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+void Test::moveDown()
+{
+	int start[4][4] =
+	{
+		{2,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{2,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.moveDown();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Result Move Down: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+void Test::moveRight()
+{
+	int start[4][4] =
+	{
+		{2,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,2},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.moveRight();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Result Move Right: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+void Test::moveLeft()
+{
+	int start[4][4] =
+	{
+		{0,0,0,2},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{2,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.moveLeft();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Result Move Left: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 
 }
