@@ -10,11 +10,18 @@ void IntegrationTest()
 {
     Test o_test;
 
-    //o_test.moveUp();
     o_test.moveRight();
     o_test.moveLeft();
     o_test.moveUp();
     o_test.moveDown();
+    o_test.moveRightSide();
+    o_test.moveLeftSide();
+    o_test.moveUpSide();
+    o_test.moveDownSide();
+    o_test.fusion();
+
+    //o_test.controllers();
+
 }
 
 //void IntegrationGame()
@@ -37,12 +44,7 @@ void IntegrationTest()
 //    //o_grid->changeValueWithCoordinates(3, 1, 4);
 //
 //    o_grid->display();
-//    while (1) {
-//       std::vector<int> dist = o_grid->controllers();
-//       //o_grid->moveTile(dist);
-//        o_grid->movement(0, 0, dist[0], dist[1]);
-//
-//    }
+
 //
 //    delete o_grid;
 //}

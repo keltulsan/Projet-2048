@@ -27,10 +27,14 @@ public:
 	Grid(int config[4][4]);
 	bool compare(int config[4][4]);
 
-	void moveRight();
-	void moveLeft();
-	void moveUp();
-	void moveDown();
+	void moveRight(int x);
+	void moveLeft(int x);
+	void moveUp(int y);
+	void moveDown(int y);
+	void moveUpSide();
+	void moveDownSide();
+	void moveLeftSide();
+	void moveRightSide();
 
 
 	void display();

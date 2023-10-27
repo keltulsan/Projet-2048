@@ -153,24 +153,24 @@ void Grid::display() { //affichage de la grille
 	std::cout << std::endl;
 };
 
-//void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
-//	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
-//	this->tab[x][y]->setValue(newValue);
-//	if (newValue == 2048) {
-//		this->is2048.push_back(this->tab[x][y]);
-//	}
-//	this->tab[x + distX][y + distY]->setValue(0);
-//};
-//
-//bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
-//	if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
-//		return true;
-//	}
-//	else {
-//		return false;
-//	};
-//
-//};
+void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous blocs
+	int newValue = this->tab[x][y]->getValue() + this->tab [x + distX] [y + distY]->getValue();
+	this->tab[x][y]->setValue(newValue);
+	if (newValue == 2048) {
+		this->is2048.push_back(this->tab[x][y]);
+	}
+	this->tab[x + distX][y + distY]->setValue(0);
+};
+
+bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
+	if (this->tab[x][y]->getValue() == this->tab[x + distX][y + distY]->getValue()) {
+		return true;
+	}
+	else {
+		return false;
+	};
+
+};
 
 bool Grid::detectCollide(int x, int y) {
 	if (this->tab[x][y]->getValue() != 0) {
@@ -186,17 +186,17 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 	}
 	return true;
 };
-//
-//bool Grid::fusion(int x, int y, int distX, int distY) {
-//	std::cout << "Fusion function" << std::endl;
-//	if (this->canFuse(x, y, distX, distY)) {
-//		std::cout << "fused" << std::endl;
-//		this->sumValue(x, y, distX, distY);
-//		return true;
-//	}
-//	return false;
-//}
-//
+
+bool Grid::fusion(int x, int y, int distX, int distY) {
+	std::cout << "Fusion function" << std::endl;
+	if (this->canFuse(x, y, distX, distY)) {
+		std::cout << "fused" << std::endl;
+		this->sumValue(x, y, distX, distY);
+		return true;
+	}
+	return false;
+}
+
 //void Grid::moveTile(std::vector<int> movement) {
 //	int distX = movement[0];
 //	int distY = movement[1];
@@ -345,22 +345,22 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 //
 //		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 //			//key up
-//			return std::vector<int>{1, 0}; // x, y
+//			this->moveUp();
 //		}
 //
 //		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 //			// key down
-//			return std::vector<int>{-1, 0}; // x, y
+//			this->moveDown();
 //		}
 //
 //		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 //			// key left
-//			return std::vector<int>{0, 1}; // x, y
+//			this->moveLeft();
 //		}
 //
 //		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 //			// key right
-//			return std::vector<int>{0, -1}; // x, y
+//			this->moveRight();
 //		}
 //
 //	}
@@ -423,9 +423,8 @@ bool Grid::compare(int config[4][4])
 	return true;
 }
 
-void Grid::moveRight()
+void Grid::moveRight(int x)
 {
-	int x = 0;
 	int y = this->sizeX - 1;
 	int offset = 0;
 
@@ -440,9 +439,8 @@ void Grid::moveRight()
 	this->tab[x][y + offset]->setValue(0);
 }
 
-void Grid::moveLeft()
+void Grid::moveLeft(int x)
 {
-	int x = 0;
 	int y = 0;
 	int offset = 0;
 
@@ -457,10 +455,9 @@ void Grid::moveLeft()
 	this->tab[x][y + offset]->setValue(0);
 }
 
-void Grid::moveUp()
+void Grid::moveUp(int y)
 {
 	int x = 0;
-	int y = 0;
 	int offset = 0;
 
 	for (int i = 0; i < this->sizeY - 1; i++)
@@ -474,10 +471,9 @@ void Grid::moveUp()
 	this->tab[x + offset][y]->setValue(0);
 }
 
-void Grid::moveDown()
+void Grid::moveDown(int y)
 {
 	int x = this->sizeY - 1;
-	int y = 0;
 	int offset = 0;
 
 	for (int i = x; i >= 0; i--)
@@ -489,4 +485,37 @@ void Grid::moveDown()
 	}
 	this->tab[x][y]->setValue(this->tab[x + offset][y]->getValue());
 	this->tab[x + offset][y]->setValue(0);
+}
+
+
+void Grid::moveRightSide()
+{
+	for (int i = 0; i < this->sizeY; i++) 
+	{
+		this->moveRight(i);
+	}
+}
+
+void Grid::moveLeftSide()
+{
+	for (int i = 0; i < this->sizeY; i++)
+	{
+		this->moveLeft(i);
+	}
+}
+
+void Grid::moveUpSide()
+{
+	for (int j = 0; j < this->sizeY; j++)
+	{
+		this->moveUp(j);
+	}
+}
+
+void Grid::moveDownSide()
+{
+	for (int j = 0; j < this->sizeY; j++)
+	{
+		this->moveDown(j);
+	}
 }
