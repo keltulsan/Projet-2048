@@ -5,6 +5,34 @@ Grid* o_grid = new Grid(4, 4);
 
 Test::Test() {};
 
+void Test::gridCreateCopy()
+{
+	int start[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,0,0},
+		{2,0,0,0},
+		{4,0,0,0},
+	};
+	
+	int result[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+
+	Grid grid(start);
+	Grid grid2(result);
+	grid.display();
+	grid2.gridCreateCopy(grid);
+	grid.display();
+	bool isSuccess = grid2.compareVectorTile(grid);
+	std::cout << "Test Copy grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
+
 void Test::moveUp() 
 {
 	int start[4][4] =
@@ -557,7 +585,24 @@ void Test::win()
 	//grid.display();
 	bool isSuccess = grid.conditionGameWin();
 	std::cout << "Test Win: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
 
+void Test::loose()
+{
+	int start[4][4] =
+	{
+		{4,0,0,2},
+		{2,0,2,2},
+		{4,1024,0,4},
+		{0,1024,16,8},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionDownSide();
+	//grid.display();
+	bool isSuccess = grid.conditionGameWin();
+	std::cout << "Test Win: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }
 
 

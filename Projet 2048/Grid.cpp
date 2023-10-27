@@ -50,8 +50,7 @@
 //		this->is2048.push_back(this->tab[x][y]);
 //	}
 //};
-//
-//
+
 Grid::Grid(int x, int y) { //créer la grille
 	this->sizeX = x;
 	this->sizeY = y;
@@ -80,6 +79,17 @@ Grid::Grid(int config[4][4]) { //créer la grille
 		{
 			Tile* tile = new Tile(config[i][j]);
 			this->tab[i].push_back(tile);
+		}
+	};
+};
+
+void Grid::gridCreateCopy(Grid tabCopy) { //créer une copy de la grille 
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			tabCopy.tab[i][j]->getValue();
+			this->tab[i][j]->setValue(tabCopy.tab[i][j]->getValue());
 		}
 	};
 };
@@ -380,13 +390,14 @@ bool Grid::conditionGameWin() {
 //		return false;
 //	}
 //};
-//
-//
+
+
 void Grid::game() {
 	this->searchGridPlace();
 	this->tileSetRandomNumber(2);
-
-	this->controllers();
+	while (1) {
+		this->controllers();
+	}
 }
 
 
@@ -397,6 +408,21 @@ bool Grid::compare(int config[4][4])
 		for (int j = 0; j < this->sizeX; ++j)
 		{
 			if (config[i][j] != this->tab[i][j]->getValue()) {
+				return false;
+			}
+
+		}
+	};
+	return true;
+}
+
+bool Grid::compareVectorTile(Grid tabCopy)
+{
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			if (tabCopy.tab[i][j]->getValue() != this->tab[i][j]->getValue()) {
 				return false;
 			}
 

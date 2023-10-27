@@ -9,7 +9,7 @@
 void IntegrationTest() 
 {
     Test o_test;
-
+    o_test.gridCreateCopy();
     o_test.moveRight();
     o_test.moveLeft();
     o_test.moveUp();

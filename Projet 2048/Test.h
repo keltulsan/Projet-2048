@@ -1,8 +1,13 @@
 #pragma once
 
+#include <vector>
+
 class Test {
 public:
 	Test();
+	
+	void gridCreateCopy();
+
 	void moveUp();
 	void moveDown();
 	void moveLeft();
@@ -27,4 +32,5 @@ public:
 	void right();
 
 	void win();
+	void loose();
 };

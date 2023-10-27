@@ -25,7 +25,9 @@ public:
 	Grid(int x, int y);
 
 	Grid(int config[4][4]);
+
 	bool compare(int config[4][4]);
+	bool compareVectorTile(Grid tabCopy);
 
 	void moveRight(int x);
 	void moveLeft(int x);
@@ -51,6 +53,8 @@ public:
 	void down();
 	void left();
 	void right();
+
+	void gridCreateCopy(Grid tabCopy);
 
 
 	void display();
