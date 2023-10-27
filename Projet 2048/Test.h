@@ -1,7 +1,6 @@
 #pragma once
 
 class Test {
-
 public:
 	Test();
 	void moveUp();
@@ -13,7 +12,10 @@ public:
 	void moveLeftSide();
 	void moveRightSide();
 	
-	void fusion();
+	void fusionRight();
+	void fusionLeft();
+	void fusionUp();
+	void fusionDown();
 	void fusionUpSide();
 	void fusionDownSide();
 	void fusionLeftSide();

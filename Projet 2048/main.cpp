@@ -18,23 +18,27 @@ void IntegrationTest()
     o_test.moveLeftSide();
     o_test.moveUpSide();
     o_test.moveDownSide();
-    o_test.fusion();
+    o_test.fusionRight();
+    o_test.fusionLeft();
+    o_test.fusionUp();
+    o_test.fusionDown();
     o_test.fusionUpSide();
     o_test.fusionDownSide();
     o_test.fusionLeftSide();
     o_test.fusionRightSide();
-
-    //o_test.controllers();
-
+    o_test.up();
+    o_test.down();
+    o_test.left();
+    o_test.right();
 }
 
-//void IntegrationGame()
-//{
-//    srand(time(NULL));
-//
-//    Grid* o_grid = new Grid(4, 4);
-//
-//    //o_grid->game();
+void IntegrationGame()
+{
+    srand(time(NULL));
+
+    Grid* o_grid = new Grid(4, 4);
+
+      o_grid->game();
 //    o_grid->searchGridPlace();
 //
 //    //o_grid->changeValueWithCoordinates(0, 0, 4);
@@ -47,11 +51,10 @@ void IntegrationTest()
 //    //o_grid->changeValueWithCoordinates(2, 1, 2);
 //    //o_grid->changeValueWithCoordinates(3, 1, 4);
 //
-//    o_grid->display();
 
-//
-//    delete o_grid;
-//}
+
+    delete o_grid;
+}
 
 int main()
 {

@@ -36,6 +36,12 @@ public:
 	void moveLeftSide();
 	void moveRightSide();
 
+
+	void fusionUp(int y);
+	void fusionDown(int y);
+	void fusionLeft(int x);
+	void fusionRight(int x);
+
 	void fusionUpSide();
 	void fusionDownSide();
 	void fusionLeftSide();
@@ -45,8 +51,6 @@ public:
 	void down();
 	void left();
 	void right();
-
-
 
 
 	void display();
@@ -64,6 +68,6 @@ public:
 	bool canMove(int x, int y, int distX, int distY);
 	bool conditionGameWin();
 	bool conditionGameLoose();
-	std::string controllers();
+	void controllers();
 	Point getCoordinatesById(int id); // #DEPRECATED
 };

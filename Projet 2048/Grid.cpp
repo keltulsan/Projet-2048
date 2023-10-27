@@ -159,6 +159,7 @@ void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous bloc
 	if (newValue == 2048) {
 		this->is2048.push_back(this->tab[x][y]);
 	}
+	this->possibleGridPlace.push_back(this->tab[x + distX][y + distY]);
 	this->tab[x + distX][y + distY]->setValue(0);
 };
 
@@ -300,65 +301,68 @@ bool Grid::fusion(int x, int y, int distX, int distY) {
 //	isFused = false;
 //	this->display();
 //}
-//
-//void Grid::tileSetRandomNumber(int loop) 
-//{
-//	for (int i = 0; i < loop; i++) 
-//	{
-//		int randomNumber = rand() % (this->possibleGridPlace.size() - 1); // index random parmi une liste d'adresse mémoire de tile
-//		double is2048 = rand() % (2048*2048);
-//		if (this->possibleGridPlace[randomNumber]->getValue() == 0)
-//		{
-//			if (is2048 == 0){ // 1 chance sur 2048 puissance 2 d'avoir un 2048
-//				this->possibleGridPlace[randomNumber]->setValue(2048);
-//				this->is2048.push_back(this->possibleGridPlace[randomNumber]);
-//			}
-//			else if (randomNumber < 9) {
-//				this->possibleGridPlace[randomNumber]->setValue(2);
-//			}	
-//			else {
-//				this->possibleGridPlace[randomNumber]->setValue(4);
-//			}
-//			this->possibleGridPlace.erase(this->possibleGridPlace.begin() + randomNumber);
-//		}
-//	}
-//	this->display();
-//};
-//
-//void Grid::searchGridPlace() {
-//	for (int i = 0; i < this->sizeY; i++) {
-//		for (int j = 0; j < this->sizeX; j++) {
-//			if (this->tab[i][j]->getValue() == 0) 
-//			{
-//				this->possibleGridPlace.push_back(this->tab[i][j]);
-//			}
-//		}
-//	}
-//}
-//
-std::string Grid::controllers() {
+
+void Grid::tileSetRandomNumber(int loop) 
+{
+	for (int i = 0; i < loop; i++) 
+	{
+		int randomNumber = rand() % (this->possibleGridPlace.size() - 1); // index random parmi une liste d'adresse mémoire de tile
+		double is2048 = rand() % (2048*2048);
+		if (this->possibleGridPlace[randomNumber]->getValue() == 0)
+		{
+			if (is2048 == 0){ // 1 chance sur 2048 puissance 2 d'avoir un 2048
+				this->possibleGridPlace[randomNumber]->setValue(2048);
+				this->is2048.push_back(this->possibleGridPlace[randomNumber]);
+			}
+			else if (randomNumber < 9) {
+				this->possibleGridPlace[randomNumber]->setValue(2);
+			}	
+			else {
+				this->possibleGridPlace[randomNumber]->setValue(4);
+			}
+			this->possibleGridPlace.erase(this->possibleGridPlace.begin() + randomNumber);
+		}
+	}
+	this->display();
+};
+
+void Grid::searchGridPlace() {
+	for (int i = 0; i < this->sizeY; i++) {
+		for (int j = 0; j < this->sizeX; j++) {
+			if (this->tab[i][j]->getValue() == 0) 
+			{
+				this->possibleGridPlace.push_back(this->tab[i][j]);
+			}
+		}
+	}
+}
+
+void Grid::controllers() {
 
 	while (1) {
 		int keyValue = _getch();
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 			//key up
-			return "Up";
+			this->up();
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 			// key down
-			return "Down";
+			this->down();
+
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 			// key left
-			return "Left";
+			this->left();
+
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 			// key right
-			return "Right";
+			this->right();
+
 		}
 
 	}
@@ -385,26 +389,15 @@ std::string Grid::controllers() {
 //};
 //
 //
-//void Grid::game() {
-//	this->searchGridPlace();
-//	//this->tileSetRandomNumber(2);
-//	this->display();
-//	while (1) {
-//		if (this->conditionGameLoose()) {
-//			std::cout << std::endl << "You Lose :( ";
-//			return;
-//		}
-//		else if (this->conditionGameWin()) {
-//			std::cout << std::endl << "You Win !";
-//			return;
-//		}
-//		else {
-//			std::vector<int> dist = this->controllers();
-//			this->movement(0, 0, dist[0], dist[1]);
-//		}
-//	}
-//}
-//
+void Grid::game() {
+	this->searchGridPlace();
+	this->tileSetRandomNumber(2);
+
+	this->controllers();
+	this->tileSetRandomNumber(1);
+
+}
+
 
 bool Grid::compare(int config[4][4])
 {
@@ -597,6 +590,7 @@ void Grid::moveDown(int y)
 
 void Grid::moveRightSide()
 {
+	/* Permet de faire les déplacement des cases vers la droite */
 	for (int i = 0; i < this->sizeY; i++) 
 	{
 		this->moveRight(i);
@@ -605,6 +599,7 @@ void Grid::moveRightSide()
 
 void Grid::moveLeftSide()
 {
+	/* Permet de faire les déplacement des cases vers la gauche */
 	for (int i = 0; i < this->sizeY; i++)
 	{
 		this->moveLeft(i);
@@ -613,6 +608,7 @@ void Grid::moveLeftSide()
 
 void Grid::moveUpSide()
 {
+	/* Permet de faire les déplacement des cases vers le haut */
 	for (int j = 0; j < this->sizeY; j++)
 	{
 		this->moveUp(j);
@@ -621,62 +617,130 @@ void Grid::moveUpSide()
 
 void Grid::moveDownSide()
 {
+	/* Permet de faire les déplacement des cases vers le bas */
 	for (int j = 0; j < this->sizeY; j++)
 	{
 		this->moveDown(j);
 	}
 }
 
+void Grid::fusionRight(int x)
+{
+	/* Permet de faire la fusion des cases d'une colonne vers du coté droit */
+	for (int j = this->sizeX - 1; j > 0 ; j--)
+	{
+		if (this->canFuse(x, j, 0, -1)) 
+		{
+			this->sumValue(x, j, 0, -1);
+			return;
+		}
+	}
+}
+
+void Grid::fusionLeft(int x)
+{
+	/* Permet de faire la fusion des cases d'une colonne vers du coté gauche */
+	for (int j = 0; j < this->sizeX; j++)
+	{
+		if (this->canFuse(x, j, 0, 1))
+		{
+			this->sumValue(x, j, 0, 1);
+			return;
+		}
+	}
+}
+
+void Grid::fusionUp(int y)
+{
+	/* Permet de faire la fusion des cases d'une colonne vers du haut */
+	for (int i = 0; i < this->sizeY; i++)
+	{
+		if (this->canFuse(i, y, 1, 0))
+		{
+			this->sumValue(i, y, 1, 0);
+			return;
+		}
+	}
+}
+
+void Grid::fusionDown(int y)
+{
+	/* Permet de faire la fusion des cases d'une colonne vers du bas */
+	for (int i = this->sizeY - 1; i > 0; i--)
+	{
+		if (this->canFuse(i, y, -1, 0))
+		{
+			this->sumValue(i, y, -1, 0);
+			return;
+		}
+	}
+}
 
 void Grid::fusionRightSide()
 {
+	/* Permet de faire la fusion des cases vers du coté droit */
 	for (int i = 0; i < this->sizeY; i++)
 	{
-		this->fusion(i, (this->sizeX - 1), 0, -1);
+		this->fusionRight(i);
 	}
 }
 
 void Grid::fusionLeftSide()
 {
+	/* Permet de faire la fusion des cases vers du coté gauche */
 	for (int i = 0; i < this->sizeY; i++)
 	{
-		this->fusion(i, 0, 0, 1);
+		this->fusionLeft(i);
 	}
 }
 
 void Grid::fusionUpSide()
 {
+	/* Permet de faire la fusion des cases vers du haut */
 	for (int j = 0; j < this->sizeX; j++)
 	{
-		this->fusion(0, j, 1, 0);
+		this->fusionUp(j);
 	}
 }
 
 void Grid::fusionDownSide()
 {
+	/* Permet de faire la fusion des cases vers du bas */
 	for (int j = 0; j < this->sizeX; j++)
 	{
-		this->fusion((this->sizeY - 1), j, -1, 0);
+		this->fusionDown(j);
 	}
 }
 
 
 void Grid::right()
 {
-
+	/* Permet de réaliser le mouvement vers la droite */
+	this->moveRightSide();
+	this->fusionRightSide();
+	this->moveRightSide();
 }
 
 void Grid::left()
 {
-
+	/* Permet de réaliser le mouvement vers la gauche */
+	this->moveLeftSide();
+	this->fusionLeftSide();
+	this->moveLeftSide();
 }
 
 void Grid::up()
 {
-
+	/* Permet de réaliser le mouvement vers le haut */
+	this->moveUpSide();
+	this->fusionUpSide();
+	this->moveUpSide();
 }
 
 void Grid::down()
 {
-
+	/* Permet de réaliser le mouvement vers le bas */
+	this->moveDownSide();
+	this->fusionDownSide();
+	this->moveDownSide();
 }

@@ -217,11 +217,11 @@ void Test::moveLeftSide()
 
 }
 
-void Test::fusion()
+void Test::fusionRight()
 {
 	int start[4][4] =
 	{
-		{2,2,0,0},
+		{0,4,4,2},
 		{0,0,0,0},
 		{0,0,0,0},
 		{0,0,0,0},
@@ -229,7 +229,7 @@ void Test::fusion()
 
 	int result[4][4] =
 	{
-		{4,0,0,0},
+		{0,0,8,2},
 		{0,0,0,0},
 		{0,0,0,0},
 		{0,0,0,0},
@@ -237,10 +237,91 @@ void Test::fusion()
 
 	Grid grid(start);
 	//grid.display();
-	grid.fusion(0, 0, 0, 1);
+	grid.fusionRight(0);
 	//grid.display();
 	bool isSuccess = grid.compare(result);
-	std::cout << "Test Fusion: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+	std::cout << "Test Fusion Right: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionLeft()
+{
+	int start[4][4] =
+	{
+		{2,2,2,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{4,0,2,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionLeft(0);
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Left: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionUp()
+{
+	int start[4][4] =
+	{
+		{2,0,0,0},
+		{2,0,0,0},
+		{4,0,0,0},
+		{4,0,0,0},
+	};
+
+	int result[4][4] =
+	{
+		{4,0,0,0},
+		{0,0,0,0},
+		{4,0,0,0},
+		{4,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionUp(0);
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Up: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::fusionDown()
+{
+	int start[4][4] =
+	{
+		{0,0,0,0},
+		{2,0,2,0},
+		{2,0,0,0},
+		{0,0,2,0},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,0},
+		{0,0,2,0},
+		{4,0,0,0},
+		{0,0,2,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionDown(0);
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Fusion Down: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 
 }
 
@@ -302,7 +383,7 @@ void Test::fusionLeftSide()
 {
 	int start[4][4] =
 	{
-		{2,2,0,0},
+		{4,2,2,0},
 		{16,16,0,0},
 		{2,4,0,0},
 		{8,4,0,0},
@@ -310,7 +391,7 @@ void Test::fusionLeftSide()
 
 	int result[4][4] =
 	{
-		{4,0,0,0},
+		{4,4,0,0},
 		{32,0,0,0},
 		{2,4,0,},
 		{8,4,0,0},
@@ -349,6 +430,114 @@ void Test::fusionRightSide()
 	//grid.display();
 	bool isSuccess = grid.compare(result);
 	std::cout << "Test Fusion Right Side: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::right()
+{
+	int start[4][4] =
+	{
+		{2,0,2,2},
+		{8,4,4,2},
+		{0,0,8,2},
+		{0,0,4,4},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,2,4},
+		{0,8,8,2},
+		{0,0,8,2},
+		{0,0,0,8},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.right();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Play Right: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::left()
+{
+	int start[4][4] =
+	{
+		{2,0,0,0},
+		{0,0,4,0},
+		{0,8,0,0},
+		{0,0,0,16},
+	};
+
+	int result[4][4] =
+	{
+		{2,0,0,0},
+		{4,0,0,0},
+		{8,0,0,0},
+		{16,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.left();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Play Left: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::up()
+{
+	int start[4][4] =
+	{
+		{2,2,2,2},
+		{2,2,2,2},
+		{2,2,2,2},
+		{2,2,2,2},
+	};
+
+	int result[4][4] =
+	{
+		{4,4,4,4},
+		{2,2,2,2},
+		{2,2,2,2},
+		{0,0,0,0},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.up();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Play Up: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
+void Test::down()
+{
+	int start[4][4] =
+	{
+		{4,0,0,2},
+		{2,0,2,2},
+		{4,4,0,4},
+		{0,0,16,8},
+	};
+
+	int result[4][4] =
+	{
+		{0,0,0,0},
+		{4,0,0,4},
+		{2,0,2,4},
+		{4,4,16,8},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.down();
+	//grid.display();
+	bool isSuccess = grid.compare(result);
+	std::cout << "Test Play Down: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 
 }
 
