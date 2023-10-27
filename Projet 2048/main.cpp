@@ -30,6 +30,7 @@ void IntegrationTest()
     o_test.down();
     o_test.left();
     o_test.right();
+    o_test.win();
 }
 
 void IntegrationGame()

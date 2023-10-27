@@ -26,5 +26,5 @@ public:
 	void left();
 	void right();
 
-	void controllers();
+	void win();
 };

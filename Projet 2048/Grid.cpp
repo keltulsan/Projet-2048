@@ -188,14 +188,6 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 	return true;
 };
 
-bool Grid::fusion(int x, int y, int distX, int distY) {
-	if (this->canFuse(x, y, distX, distY)) {
-		this->sumValue(x, y, distX, distY);
-		return true;
-	}
-	return false;
-}
-
 //void Grid::moveTile(std::vector<int> movement) {
 //	int distX = movement[0];
 //	int distY = movement[1];
@@ -345,39 +337,40 @@ void Grid::controllers() {
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 			//key up
 			this->up();
+			this->tileSetRandomNumber(1);
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 			// key down
 			this->down();
-
+			this->tileSetRandomNumber(1);
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 			// key left
 			this->left();
-
+			this->tileSetRandomNumber(1);
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 			// key right
 			this->right();
-
+			this->tileSetRandomNumber(1);
 		}
 
 	}
 };
 
-//bool Grid::conditionGameWin() {
-//	//condition de win
-//	if (this->is2048.size() >= 1) {
-//		return true;
-//	}
-//	else {
-//		return false;
-//	}
-//};
-//
+bool Grid::conditionGameWin() {
+	//condition de win
+	if (this->is2048.size() >= 1) {
+		return true;
+	}
+	else {
+		return false;
+	}
+};
+
 //bool Grid::conditionGameLoose() {
 //	//condition de lose
 //	if (this->possibleGridPlace.empty()) {
@@ -394,8 +387,6 @@ void Grid::game() {
 	this->tileSetRandomNumber(2);
 
 	this->controllers();
-	this->tileSetRandomNumber(1);
-
 }
 
 
@@ -438,7 +429,7 @@ void Grid::moveRight(int x)
 			}
 			else if (this->tab[x][j]->getValue() != 0 && offset == 0)
 			{
-				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				// permet d'incrémente y si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
 				y--;
 			}
 			else if (this->tab[x][j]->getValue() != 0 && realOffset == 0)
@@ -468,7 +459,7 @@ void Grid::moveLeft(int x)
 
 	while (1)
 	{
-		for (int j = y; j <= this->sizeX - 1; j++)
+		for (int j = y; j <= (this->sizeX - 1); j++)
 		{
 			if (y >= this->sizeX - 1)
 			{
@@ -482,7 +473,7 @@ void Grid::moveLeft(int x)
 			}
 			else if (this->tab[x][j]->getValue() != 0 && offset == 0)
 			{
-				// permet d'incrémente x si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
+				// permet d'incrémente y si la case choisie est déjà un chiffre et que l'on a pas besoin de le déplacer
 				y++;
 			}
 			else if (realOffset == 0 && this->tab[x][j]->getValue() != 0)
@@ -511,7 +502,7 @@ void Grid::moveUp(int y)
 
 	while (1)
 	{
-		for (int i = x; i <= this->sizeY - 1; i++)  // boucle qui regarde les valeurs de notre grille
+		for (int i = x; i <= (this->sizeY - 1); i++)  // boucle qui regarde les valeurs de notre grille
 		{
 			if (x >= this->sizeY - 1)
 			{
@@ -629,10 +620,13 @@ void Grid::fusionRight(int x)
 	/* Permet de faire la fusion des cases d'une colonne vers du coté droit */
 	for (int j = this->sizeX - 1; j > 0 ; j--)
 	{
-		if (this->canFuse(x, j, 0, -1)) 
+		if (this->canMove(x, j, 0, -1))
 		{
-			this->sumValue(x, j, 0, -1);
-			return;
+			if (this->canFuse(x, j, 0, -1))
+			{
+				this->sumValue(x, j, 0, -1);
+				return;
+			}
 		}
 	}
 }
@@ -642,10 +636,13 @@ void Grid::fusionLeft(int x)
 	/* Permet de faire la fusion des cases d'une colonne vers du coté gauche */
 	for (int j = 0; j < this->sizeX; j++)
 	{
-		if (this->canFuse(x, j, 0, 1))
+		if (this->canMove(x, j, 0, 1))
 		{
-			this->sumValue(x, j, 0, 1);
-			return;
+			if (this->canFuse(x, j, 0, 1))
+			{
+				this->sumValue(x, j, 0, 1);
+				return;
+			}
 		}
 	}
 }
@@ -655,10 +652,13 @@ void Grid::fusionUp(int y)
 	/* Permet de faire la fusion des cases d'une colonne vers du haut */
 	for (int i = 0; i < this->sizeY; i++)
 	{
-		if (this->canFuse(i, y, 1, 0))
+		if (this->canMove(i, y, 1, 0))
 		{
-			this->sumValue(i, y, 1, 0);
-			return;
+			if (this->canFuse(i, y, 1, 0))
+			{
+				this->sumValue(i, y, 1, 0);
+				return;
+			}
 		}
 	}
 }
@@ -668,11 +668,15 @@ void Grid::fusionDown(int y)
 	/* Permet de faire la fusion des cases d'une colonne vers du bas */
 	for (int i = this->sizeY - 1; i > 0; i--)
 	{
-		if (this->canFuse(i, y, -1, 0))
+		if (this->canMove(i, y, -1, 0))
 		{
-			this->sumValue(i, y, -1, 0);
-			return;
+			if (this->canFuse(i, y, -1, 0))
+			{
+				this->sumValue(i, y, -1, 0);
+				return;
+			}
 		}
+
 	}
 }
 

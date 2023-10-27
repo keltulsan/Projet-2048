@@ -541,6 +541,25 @@ void Test::down()
 
 }
 
+void Test::win()
+{
+	int start[4][4] =
+	{
+		{4,0,0,2},
+		{2,0,2,2},
+		{4,1024,0,4},
+		{0,1024,16,8},
+	};
+
+	Grid grid(start);
+	//grid.display();
+	grid.fusionDownSide();
+	//grid.display();
+	bool isSuccess = grid.conditionGameWin();
+	std::cout << "Test Win: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+
+}
+
 
 
 
