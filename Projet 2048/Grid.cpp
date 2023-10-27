@@ -389,16 +389,7 @@ bool Grid::conditionGameWin() {
 //	else {
 //		return false;
 //	}
-//};
-
-
-void Grid::game() {
-	this->searchGridPlace();
-	this->tileSetRandomNumber(2);
-	while (1) {
-		this->controllers();
-	}
-}
+//}
 
 
 bool Grid::compare(int config[4][4])

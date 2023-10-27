@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Grid.h"
 #include "Tile.h"
+#include "Game.h"
 #include "Test.h"
 #include <Windows.h>
 #include <vector>
@@ -37,30 +38,14 @@ void IntegrationGame()
 {
     srand(time(NULL));
 
-    Grid* o_grid = new Grid(4, 4);
+    Game* o_game = new Game();
 
-      o_grid->game();
-//    o_grid->searchGridPlace();
-//
-//    //o_grid->changeValueWithCoordinates(0, 0, 4);
-//    //o_grid->changeValueWithCoordinates(1, 0, 4);
-//    //o_grid->changeValueWithCoordinates(2, 0, 2);
-//    o_grid->changeValueWithCoordinates(3, 0, 2);
-//
-//    //o_grid->changeValueWithCoordinates(0, 1, 4);
-//    //o_grid->changeValueWithCoordinates(1, 1, 2);
-//    //o_grid->changeValueWithCoordinates(2, 1, 2);
-//    //o_grid->changeValueWithCoordinates(3, 1, 4);
-//
-
-
-    delete o_grid;
 }
 
 int main()
 {
-    IntegrationTest();
-    //IntegrationGame();
+    //IntegrationTest();
+    IntegrationGame();
 
     return 0;
 }

@@ -64,7 +64,6 @@ public:
 	void movement(int x, int y, int distX, int distY);
 	void moveTile(std::vector<int> movement);
 	void searchGridPlace();
-	void game();
 	int getIdByCoordinates(int x, int y); // #DEPRECATED
 	bool fusion(int x, int y, int distX, int distY);
 	bool canFuse(int x, int y, int distX, int distY);
