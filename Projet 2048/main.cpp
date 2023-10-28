@@ -41,7 +41,6 @@ void IntegrationGame()
 
     Game* o_game = new Game(3,3);
     o_game->startGame();
-    o_game->restartGame();
     delete o_game;
 
 }

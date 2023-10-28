@@ -26,12 +26,14 @@ void Game::startGame()
 		{
 			std::cout << "YOU WIN" << std::endl;
 			delete o_grid;
+			this->restartGame();
 			return;
 		}
 		else if (o_grid->conditionGameLose())
 		{
 			std::cout << "YOU Lose" << std::endl;
 			delete o_grid;
+			this->restartGame();
 			return;
 		}
 
