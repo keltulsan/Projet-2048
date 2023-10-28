@@ -649,7 +649,3 @@ void Test::lose()
 	bool isSuccess = grid.conditionGameLose();
 	std::cout << "Test Lose: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }
-
-
-
-
