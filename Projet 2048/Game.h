@@ -2,6 +2,7 @@
 
 #include "Grid.h"
 
+/* Define de code pour chaque touche */
 #define KEY_UP 72
 #define KEY_DOWN 80
 #define KEY_LEFT 75
@@ -13,13 +14,14 @@
 
 class Game
 {
+	/* Classe pour jouer au 2048 version console */
 private:
-	int sizeX;
-	int sizeY;
+	int sizeX; // taille de la grille en x
+	int sizeY; // taille de la grille en y
 
 public :
-	Game(int x, int y);
+	Game(int x, int y); // constructor
 
-	void startGame();
-	void restartGame();
+	void startGame(); // méthode pour lancer le jeu
+	void restartGame(); // méthode pour relancer le jeu
 };

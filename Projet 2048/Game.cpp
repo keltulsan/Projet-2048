@@ -3,8 +3,6 @@
 #include <conio.h>
 
 
-
-
 Game::Game(int x, int y) 
 {
 	this->sizeX = x;
@@ -14,6 +12,7 @@ Game::Game(int x, int y)
 
 void Game::startGame()
 {
+	/* Méthode pour lancer le jeu*/
 	Grid* o_grid = new Grid(this->sizeX, this->sizeY);
 
 	o_grid->tileSetRandomNumber(2);
@@ -41,7 +40,7 @@ void Game::startGame()
 		int keyValue = _getch();
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
-			//key up
+			// key up
 			o_grid->playUp();
 		}
 
@@ -64,11 +63,13 @@ void Game::startGame()
 }
 void Game::restartGame()
 {
+	/* Méthode pour relancer le jeu */
 	std::string response = "";
-	std::cout << "Voulez vous rejouer ? (y or n)" << std::endl;
+	std::cout << "Voulez vous rejouer ? (y or n)" << std::endl; // demande à l'utilisateur via la console
 	std::cin >> response;
 	if (response == "y")
 	{
+		// y pour yes
 		this->startGame();
 	}
 };

@@ -3,10 +3,11 @@
 
 Grid* o_grid = new Grid(4, 4);
 
-Test::Test() {};
+Test::Test() {}; // constructor
 
 void Test::gridCreateCopy()
 {
+	/* Méthode pour tester la copie d'une grille */
 	int start[4][4] =
 	{
 		{0,0,5,0},
@@ -35,8 +36,11 @@ void Test::gridCreateCopy()
 	delete grid2;
 }
 
+/* Méthodes pour tester les déplacements */
+
 void Test::moveUp() 
 {
+	/* Méthode pour tester les déplacements en haut */
 	int start[4][4] =
 	{
 		{0,0,0,0},
@@ -64,6 +68,7 @@ void Test::moveUp()
 }
 void Test::moveDown()
 {
+	/* Méthode pour tester les déplacements en bas */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -91,6 +96,7 @@ void Test::moveDown()
 }
 void Test::moveRight()
 {
+	/* Méthode pour tester les déplacements à droite */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -117,6 +123,7 @@ void Test::moveRight()
 }
 void Test::moveLeft()
 {
+	/* Méthode pour tester les déplacements à gauche */
 	int start[4][4] =
 	{
 		{4,4,0,2},
@@ -142,8 +149,15 @@ void Test::moveLeft()
 
 }
 
+/* ---------------------------------------------------------- */
+
+
+/* Méthodes pour tester les déplacements de toutes la grille */
+
+
 void Test::moveUpSide()
 {
+	/* Méthode pour tester les déplacements de toutes la grille en haut*/
 	int start[4][4] =
 	{
 		{0,2,0,2},
@@ -170,6 +184,7 @@ void Test::moveUpSide()
 }
 void Test::moveDownSide()
 {
+	/* Méthode pour tester les déplacements de toutes la grille en bas*/
 	int start[4][4] =
 	{
 		{2,2,2,2},
@@ -196,6 +211,7 @@ void Test::moveDownSide()
 }
 void Test::moveRightSide()
 {
+	/* Méthode pour tester les déplacements de toutes la grille à droite */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -222,6 +238,7 @@ void Test::moveRightSide()
 }
 void Test::moveLeftSide()
 {
+	/* Méthode pour tester les déplacements de toutes la grille à gauche */
 	int start[4][4] =
 	{
 		{0,0,0,2},
@@ -247,8 +264,13 @@ void Test::moveLeftSide()
 
 }
 
+/* ---------------------------------------------------------- */
+
+/* Méthodes pour tester les fusions */
+
 void Test::fusionRight()
 {
+	/* Méthode pour tester les fusions à droite */
 	int start[4][4] =
 	{
 		{0,4,4,2},
@@ -276,6 +298,7 @@ void Test::fusionRight()
 
 void Test::fusionLeft()
 {
+	/* Méthode pour tester les fusions à gauche */
 	int start[4][4] =
 	{
 		{2,2,2,0},
@@ -303,6 +326,7 @@ void Test::fusionLeft()
 
 void Test::fusionUp()
 {
+	/* Méthode pour tester les fusions en haut */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -330,6 +354,7 @@ void Test::fusionUp()
 
 void Test::fusionDown()
 {
+	/* Méthode pour tester les fusions en bas */
 	int start[4][4] =
 	{
 		{0,0,0,0},
@@ -355,8 +380,13 @@ void Test::fusionDown()
 
 }
 
+/* ---------------------------------------------------------- */
+
+/* Méthodes pour tester les fusions de toutes la grilles */
+
 void Test::fusionUpSide()
 {
+	/* Méthode pour tester les fusions en haut de toutes la grilles */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -384,6 +414,7 @@ void Test::fusionUpSide()
 
 void Test::fusionDownSide()
 {
+	/* Méthode pour tester les fusions en bas de toutes la grilles */
 	int start[4][4] =
 	{
 		{0,0,0,0},
@@ -411,6 +442,7 @@ void Test::fusionDownSide()
 
 void Test::fusionLeftSide()
 {
+	/* Méthode pour tester les fusions à gauche de toutes la grilles */
 	int start[4][4] =
 	{
 		{4,2,2,0},
@@ -438,6 +470,7 @@ void Test::fusionLeftSide()
 
 void Test::fusionRightSide()
 {
+	/* Méthode pour tester les fusions à droite de toutes la grilles */
 	int start[4][4] =
 	{
 		{0,0,2,2},
@@ -463,8 +496,13 @@ void Test::fusionRightSide()
 
 }
 
+/* ---------------------------------------------------------- */
+
+/* Méthodes pour tester les déplacements et les fusions de toutes la grille */
+
 void Test::right()
 {
+	/* Méthode pour tester les déplacements et les fusions de toutes la grille vers la droite */
 	int start[4][4] =
 	{
 		{2,0,2,2},
@@ -492,6 +530,7 @@ void Test::right()
 
 void Test::left()
 {
+	/* Méthode pour tester les déplacements et les fusions de toutes la grille vers la gauche */
 	int start[4][4] =
 	{
 		{2,0,0,0},
@@ -519,6 +558,7 @@ void Test::left()
 
 void Test::up()
 {
+	/* Méthode pour tester les déplacements et les fusions de toutes la grille vers le haut */
 	int start[4][4] =
 	{
 		{2,2,2,2},
@@ -546,6 +586,7 @@ void Test::up()
 
 void Test::down()
 {
+	/* Méthode pour tester les déplacements et les fusions de toutes la grille vers le bas */
 	int start[4][4] =
 	{
 		{4,0,0,2},
@@ -571,8 +612,12 @@ void Test::down()
 
 }
 
+/* ---------------------------------------------------------- */
+
+
 void Test::win()
 {
+	/* Méthode pour tester la win */
 	int start[4][4] =
 	{
 		{4,0,0,2},
@@ -591,6 +636,7 @@ void Test::win()
 
 void Test::lose()
 {
+	/* Méthode pour tester la lose */
 	int start[4][4] =
 	{
 		{2,4,8,16},

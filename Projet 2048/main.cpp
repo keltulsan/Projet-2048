@@ -47,8 +47,8 @@ void IntegrationGame()
 
 int main()
 {
-    //IntegrationTest();
-    IntegrationGame();
+    IntegrationTest();
+    //IntegrationGame();
 
     return 0;
 }
