@@ -39,7 +39,7 @@ void IntegrationGame()
 {
     srand(time(NULL));
 
-    Game* o_game = new Game(3,3);
+    Game* o_game = new Game(4,4);
     o_game->startGame();
     delete o_game;
 
