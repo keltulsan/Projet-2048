@@ -32,13 +32,17 @@ void IntegrationTest()
     o_test.left();
     o_test.right();
     o_test.win();
+    o_test.lose();
 }
 
 void IntegrationGame()
 {
     srand(time(NULL));
 
-    Game* o_game = new Game();
+    Game* o_game = new Game(2, 3);
+    o_game->startGame();
+    o_game->restartGame();
+    delete o_game;
 
 }
 

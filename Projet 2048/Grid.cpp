@@ -7,50 +7,6 @@
 #include "Grid.h"
 #include "Tile.h"
 
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-#define KEY_Z 122
-#define KEY_S 115
-#define KEY_Q 113
-#define KEY_D 100
-//
-//// #DEPRECATED
-//int Grid::getIdByCoordinates(int x, int y) {
-//	return x * this->sizeY + y;
-//}
-//
-//
-//// #DEPRECATED
-//Point Grid::getCoordinatesById(int id) {
-//	Point o_Id;
-//
-//	o_Id.x = 0;
-//	o_Id.y = 0;
-//
-//	while ( id >= 0) {
-//
-//		if (id > this->sizeX - 1) {
-//			id -= this->sizeX;
-//			o_Id.x++;
-//		}
-//		else {
-//			o_Id.y++;
-//			id = -1;
-//		}
-//	}
-//	return o_Id;
-//}
-//
-//// #DEPRECATED
-//void Grid::changeValueWithCoordinates(int x, int y, int value) { //Change la valeur des coordonée quand un blocs se deplace
-//	this->tab[x][y]->setValue(value);
-//	if (value == 2048) {
-//		this->is2048.push_back(this->tab[x][y]);
-//	}
-//};
-
 Grid::Grid(int x, int y) { //créer la grille
 	this->sizeX = x;
 	this->sizeY = y;
@@ -83,13 +39,13 @@ Grid::Grid(int config[4][4]) { //créer la grille
 	};
 };
 
-void Grid::gridCreateCopy(Grid tabCopy) { //créer une copy de la grille 
+void Grid::gridCreateCopy(Grid* tabCopy) { //créer une copy de la grille 
 	for (int i = 0; i < this->sizeY; ++i) {
 
 		for (int j = 0; j < this->sizeX; ++j)
 		{
-			tabCopy.tab[i][j]->getValue();
-			this->tab[i][j]->setValue(tabCopy.tab[i][j]->getValue());
+			tabCopy->tab[i][j]->getValue();
+			this->tab[i][j]->setValue(tabCopy->tab[i][j]->getValue());
 		}
 	};
 };
@@ -139,12 +95,12 @@ void Grid::display() { //affichage de la grille
             int len = (maxSize - (this->tab[j][i]->getValue() == 0 ? 1 : log10(this->tab[j][i]->getValue()))); // calcule permettant de récupérer la longueur de la box sans la taille du chiffre
             
 			/* Affichage du nombre au centre droit de la box */
-			for (int k = 0; k < (len + .5f) /2; k++)
+			for (int k = 0; k < (len - .5f) /2; k++)
             {
 				std::cout << preString;
             }
 			std::cout << this->tab[j][i]->getValue();
-            for (int k = 0; k < (len - .5f) / 2; k++)
+            for (int k = 0; k < (len + .5f) / 2; k++)
             {
 				std::cout << preString;
             }
@@ -169,8 +125,8 @@ void Grid::sumValue(int x, int y, int distX, int distY) { //additioner tous bloc
 	if (newValue == 2048) {
 		this->is2048.push_back(this->tab[x][y]);
 	}
-	this->possibleGridPlace.push_back(this->tab[x + distX][y + distY]);
 	this->tab[x + distX][y + distY]->setValue(0);
+	this->possibleGridPlace.push_back(this->tab[x + distX][y + distY]);
 };
 
 bool Grid::canFuse(int x, int y, int distX, int distY) { //pouvons nous fusionner ? 
@@ -198,117 +154,15 @@ bool Grid::canMove(int x, int y, int distX, int distY) { //possbilité de bouger 
 	return true;
 };
 
-//void Grid::moveTile(std::vector<int> movement) {
-//	int distX = movement[0];
-//	int distY = movement[1];
-//	int x = 0;
-//	int y = 0;
-//
-//	if (distY == 0) {
-//		if (distX == 1)
-//		{
-//			y = this->sizeX;
-//			x = 0;
-//
-//			// haut
-//			for (int i = 0; i < y; i++) {
-//				this->movement(x, i, distX, distY);
-//			}
-//		}
-//
-//
-//		else if (distX == -1 )
-//		{
-//			y = this->sizeX;
-//			x = this->sizeY;
-//			// bas
-//			for (int i = 0; i < y; i++) {
-//				this->movement(x, i, distX, distY);
-//			}
-//		}
-//
-//	}
-//	else if (distX == 0)
-//	{
-//		if (distY == 1)
-//		{
-//			y = 0;
-//			x = this->sizeY;
-//			//gauche
-//			for (int i = 0; i < x; i++) {
-//				this->movement(i, y, distX, distY);
-//			}
-//		}
-//		else if (distY == -1)
-//		{
-//			y = this->sizeX;
-//			x = this->sizeY;
-//
-//			//droite
-//			for (int i = 0; i < x; i++) {
-//				this->movement(i, y, distX, distY);
-//			}
-//
-//		}
-//	}
-//
-//
-//}
-//
-//void Grid::movement(int x, int y, int distX, int distY) { //deplacer les tuile/block
-//
-//	bool isFused = false;
-//
-//	while (this->canMove(x, y, distX, distY)) 
-//	{
-//		std::cout << x << "/" << y << std::endl;
-//		if (this->detectCollide(x + distX, y + distY)) {
-//			std::cout << "collide" << std::endl;
-//			if (!isFused) {
-//				isFused = this->fusion(x, y, distX, distY);
-//			}
-//			else if (tab[x + distX][y + distY]->getValue() != 0 && tab[x][y]->getValue() == 0) {
-//				
-//			}
-//			else
-//			{
-//				std::cout << tab[x + distX][y + distY]->getValue() << std::endl;
-//				std::cout << tab[x][y]->getValue() << std::endl;
-//
-//				this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
-//				this->tab[x + distX][y + distY]->setValue(0);
-//			}
-//		}
-//		else
-//		{
-//			this->tab[x][y]->setValue(this->tab[x + distX][y + distY]->getValue());
-//			this->tab[x + distX][y + distY]->setValue(0);
-//			
-//		}
-//
-//		if (distX > 0) {
-//			x++;
-//		}
-//		else if (distX < 0) {
-//			x--;
-//		}
-//		if (distY > 0) {
-//			y++;
-//		}
-//		else if (distY < 0) {
-//			y--;
-//		}
-//		this->display();
-//	}
-//	isFused = false;
-//	this->display();
-//}
 
 void Grid::tileSetRandomNumber(int loop) 
 {
+	this->possibleGridPlace = {}; // initialise les cases jouables à une liste vide
+	this->searchGridPlace(); // recherche les cases jouables
+
 	for (int i = 0; i < loop; i++) 
 	{
-		int randomNumber = rand() % (this->possibleGridPlace.size() - 1); // index random parmi une liste d'adresse mémoire de tile
+		int randomNumber = rand() % (this->possibleGridPlace.size()); // index random parmi une liste d'adresse mémoire de tile
 		double is2048 = rand() % (2048*2048);
 		if (this->possibleGridPlace[randomNumber]->getValue() == 0)
 		{
@@ -329,6 +183,7 @@ void Grid::tileSetRandomNumber(int loop)
 };
 
 void Grid::searchGridPlace() {
+
 	for (int i = 0; i < this->sizeY; i++) {
 		for (int j = 0; j < this->sizeX; j++) {
 			if (this->tab[i][j]->getValue() == 0) 
@@ -381,15 +236,24 @@ bool Grid::conditionGameWin() {
 	}
 };
 
-//bool Grid::conditionGameLoose() {
-//	//condition de lose
-//	if (this->possibleGridPlace.empty()) {
-//		return true;
-//	}
-//	else {
-//		return false;
-//	}
-//}
+bool Grid::conditionGameLose() {
+	Grid* tabCopy = new Grid(this->sizeX, this->sizeY);
+	//condition de lose
+	if (this->possibleGridPlace.empty()) {
+		tabCopy->gridCreateCopy(this);
+		tabCopy->right();
+		tabCopy->left();
+		tabCopy->up();
+		tabCopy->down();
+		if (this->compareVectorTile(tabCopy))
+		{
+			delete tabCopy;
+			std::cout << true;
+			return true;
+		}
+	}
+	return false;
+}
 
 
 bool Grid::compare(int config[4][4])
@@ -407,13 +271,13 @@ bool Grid::compare(int config[4][4])
 	return true;
 }
 
-bool Grid::compareVectorTile(Grid tabCopy)
+bool Grid::compareVectorTile(Grid* tabCopy)
 {
 	for (int i = 0; i < this->sizeY; ++i) {
 
 		for (int j = 0; j < this->sizeX; ++j)
 		{
-			if (tabCopy.tab[i][j]->getValue() != this->tab[i][j]->getValue()) {
+			if (tabCopy->tab[i][j]->getValue() != this->tab[i][j]->getValue()) {
 				return false;
 			}
 
@@ -617,7 +481,7 @@ void Grid::moveLeftSide()
 void Grid::moveUpSide()
 {
 	/* Permet de faire les déplacement des cases vers le haut */
-	for (int j = 0; j < this->sizeY; j++)
+	for (int j = 0; j < this->sizeX; j++)
 	{
 		this->moveUp(j);
 	}
@@ -626,7 +490,7 @@ void Grid::moveUpSide()
 void Grid::moveDownSide()
 {
 	/* Permet de faire les déplacement des cases vers le bas */
-	for (int j = 0; j < this->sizeY; j++)
+	for (int j = 0; j < this->sizeX; j++)
 	{
 		this->moveDown(j);
 	}

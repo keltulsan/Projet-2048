@@ -32,5 +32,5 @@ public:
 	void right();
 
 	void win();
-	void loose();
+	void lose();
 };

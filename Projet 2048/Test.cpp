@@ -9,10 +9,10 @@ void Test::gridCreateCopy()
 {
 	int start[4][4] =
 	{
-		{0,0,0,0},
+		{0,0,5,0},
 		{0,0,0,0},
 		{2,0,0,0},
-		{4,0,0,0},
+		{4,0,0,3},
 	};
 	
 	int result[4][4] =
@@ -24,13 +24,15 @@ void Test::gridCreateCopy()
 	};
 
 
-	Grid grid(start);
-	Grid grid2(result);
-	grid.display();
-	grid2.gridCreateCopy(grid);
-	grid.display();
-	bool isSuccess = grid2.compareVectorTile(grid);
+	Grid* grid = new Grid(start);
+	Grid* grid2 = new Grid(result);
+	//grid.display();
+	grid2->gridCreateCopy(grid);
+	//grid2.display();
+	bool isSuccess = grid2->compareVectorTile(grid);
 	std::cout << "Test Copy grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+	delete grid;
+	delete grid2;
 }
 
 void Test::moveUp() 
@@ -587,22 +589,19 @@ void Test::win()
 	std::cout << "Test Win: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }
 
-void Test::loose()
+void Test::lose()
 {
 	int start[4][4] =
 	{
-		{4,0,0,2},
-		{2,0,2,2},
-		{4,1024,0,4},
-		{0,1024,16,8},
+		{2,4,8,16},
+		{4,8,16,2},
+		{8,16,2,4},
+		{16,2,4,8},
 	};
 
 	Grid grid(start);
-	//grid.display();
-	grid.fusionDownSide();
-	//grid.display();
-	bool isSuccess = grid.conditionGameWin();
-	std::cout << "Test Win: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+	bool isSuccess = grid.conditionGameLose();
+	std::cout << "Test Lose: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }
 
 

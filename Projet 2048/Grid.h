@@ -4,6 +4,15 @@
 #include <vector>
 #include "Tile.h"
 
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+#define KEY_Z 122
+#define KEY_S 115
+#define KEY_Q 113
+#define KEY_D 100
+
 //#DEPRECATED
 struct Point
 {
@@ -27,7 +36,7 @@ public:
 	Grid(int config[4][4]);
 
 	bool compare(int config[4][4]);
-	bool compareVectorTile(Grid tabCopy);
+	bool compareVectorTile(Grid* tabCopy);
 
 	void moveRight(int x);
 	void moveLeft(int x);
@@ -54,7 +63,7 @@ public:
 	void left();
 	void right();
 
-	void gridCreateCopy(Grid tabCopy);
+	void gridCreateCopy(Grid* tabCopy);
 
 
 	void display();
@@ -70,7 +79,7 @@ public:
 	bool detectCollide(int x, int y);
 	bool canMove(int x, int y, int distX, int distY);
 	bool conditionGameWin();
-	bool conditionGameLoose();
+	bool conditionGameLose();
 	void controllers();
 	Point getCoordinatesById(int id); // #DEPRECATED
 };
