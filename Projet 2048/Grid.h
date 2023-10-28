@@ -63,7 +63,13 @@ public:
 	void left();
 	void right();
 
+	void playRight();
+	void playLeft();
+	void playUp();
+	void playDown();
+
 	void gridCreateCopy(Grid* tabCopy);
+
 
 
 	void display();

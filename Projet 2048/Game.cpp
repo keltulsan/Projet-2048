@@ -25,11 +25,13 @@ void Game::startGame()
 		if (o_grid->conditionGameWin())
 		{
 			std::cout << "YOU WIN" << std::endl;
+			delete o_grid;
 			return;
 		}
 		else if (o_grid->conditionGameLose())
 		{
 			std::cout << "YOU Lose" << std::endl;
+			delete o_grid;
 			return;
 		}
 
@@ -38,26 +40,22 @@ void Game::startGame()
 
 		if (KEY_UP == keyValue || KEY_Z == keyValue) {
 			//key up
-			o_grid->up();
-			o_grid->tileSetRandomNumber(1);
+			o_grid->playUp();
 		}
 
 		else if (KEY_DOWN == keyValue || KEY_S == keyValue) {
 			// key down
-			o_grid->down();
-			o_grid->tileSetRandomNumber(1);
+			o_grid->playDown();
 		}
 
 		else if (KEY_LEFT == keyValue || KEY_Q == keyValue) {
 			// key left
-			o_grid->left();
-			o_grid->tileSetRandomNumber(1);
+			o_grid->playLeft();
 		}
 
 		else if (KEY_RIGHT == keyValue || KEY_D == keyValue) {
 			// key right
-			o_grid->right();
-			o_grid->tileSetRandomNumber(1);
+			o_grid->playRight();
 		}
 
 	}

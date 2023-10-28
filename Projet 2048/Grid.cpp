@@ -629,3 +629,47 @@ void Grid::down()
 	this->fusionDownSide();
 	this->moveDownSide();
 }
+
+void Grid::playRight()
+{
+	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
+	gridCopy->gridCreateCopy(this);
+	this->right();
+	if (!(gridCopy->compareVectorTile(this)))
+	{
+		this->tileSetRandomNumber(1);
+	}
+};
+
+void Grid::playLeft()
+{
+	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
+	gridCopy->gridCreateCopy(this);
+	this->left();
+	if (!(gridCopy->compareVectorTile(this)))
+	{
+		this->tileSetRandomNumber(1);
+	}
+};
+
+void Grid::playUp()
+{
+	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
+	gridCopy->gridCreateCopy(this);
+	this->up();
+	if (!(gridCopy->compareVectorTile(this)))
+	{
+		this->tileSetRandomNumber(1);
+	}
+};
+
+void Grid::playDown()
+{
+	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
+	gridCopy->gridCreateCopy(this);
+	this->down();
+	if (!(gridCopy->compareVectorTile(this)))
+	{
+		this->tileSetRandomNumber(1);
+	}
+};
