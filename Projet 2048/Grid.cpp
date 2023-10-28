@@ -99,7 +99,18 @@ void Grid::display() { //affichage de la grille
             {
 				std::cout << preString;
             }
-			std::cout << this->tab[j][i]->getValue();
+
+			/* N'affiche pas les zéro */
+			if (this->tab[j][i]->getValue() == 0)
+			{
+				std::cout << " ";
+			}
+			else
+			{
+				std::cout << this->tab[j][i]->getValue();
+			}
+			/*                         */
+			
             for (int k = 0; k < (len + .5f) / 2; k++)
             {
 				std::cout << preString;
