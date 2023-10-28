@@ -684,7 +684,6 @@ bool Grid::conditionGameLose()
 		if (this->compareVectorTile(tabCopy))
 		{
 			delete tabCopy;
-			std::cout << true;
 			return true;
 		}
 	}
