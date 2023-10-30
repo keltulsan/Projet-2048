@@ -3,9 +3,18 @@
 #include "Tile.h"
 #include "Game.h"
 #include "Test.h"
+#include "GameObject.h"
+#include "Window.h"
 #include <Windows.h>
 #include <vector>
 
+#include <SDL.h>
+
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+const int GRID_SIZE = 4;
+const int TILE_SIZE = 100;
 
 void IntegrationTest() 
 {
@@ -33,6 +42,9 @@ void IntegrationTest()
     o_test.right();
     o_test.win();
     o_test.lose();
+
+    o_test.getPath();
+
 }
 
 void IntegrationGame()
@@ -45,10 +57,29 @@ void IntegrationGame()
 
 }
 
-int main()
+void IntegrationGraphic()
 {
-    //IntegrationTest();
-    IntegrationGame();
+    Window* o_window = new Window(4, 4, 50, 50, 640, 480);
 
+    o_window->startGraphicRender();
+}
+
+int main(int argc, char** argv) {
+
+    IntegrationTest();
+    //IntegrationGame();
+    //IntegrationGraphic();
+
+    //SDL_Surface* image = SDL_LoadBMP("Image/Tile_32.bmp");
+    //if (!image)
+    //{
+    //    std::cout << "Erreur de chargement de l'image :  " << SDL_GetError();
+    //    return -1;
+    //}
+
+    //SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  //La texture monImage contient maintenant l'image importée
+    //SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+
+  
     return 0;
 }

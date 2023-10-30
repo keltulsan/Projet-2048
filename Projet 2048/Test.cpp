@@ -1,5 +1,6 @@
 #include "Test.h"
 #include "Grid.h"
+#include "GameObject.h"
 
 Grid* o_grid = new Grid(4, 4);
 
@@ -648,4 +649,16 @@ void Test::lose()
 	Grid grid(start);
 	bool isSuccess = grid.conditionGameLose();
 	std::cout << "Test Lose: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
+
+
+void Test::getPath()
+{
+	/* Méthode pour tester la lose */
+	std::string result = "Image/Tile_2.bmp";
+
+	GameObject gameObject(2);
+	gameObject.setPath();
+	bool isSuccess = gameObject.getPath() == result;
+	std::cout << "Test GetPath: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }

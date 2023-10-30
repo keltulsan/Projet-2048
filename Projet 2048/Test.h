@@ -42,4 +42,6 @@ public:
 
 	void win(); // méthode pour tester la win
 	void lose(); // méthode pour tester la lose
+
+	void getPath();
 };
