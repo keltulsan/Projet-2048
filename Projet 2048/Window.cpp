@@ -60,7 +60,7 @@ void Window::gridDisplay()
     GameObject* o_gameObject = new GameObject(2);
     o_gameObject->setPath();
 
-    SDL_Surface* image = SDL_LoadBMP(o_gameObject->getPath());
+    SDL_Surface* image = SDL_LoadBMP(o_gameObject->getPath().c_str()); // envoie d'un string qui est ensuite modifier en char* avec la fonction c_str()
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(this->renderer, image);  //La texture monImage contient maintenant l'image importée
     SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface

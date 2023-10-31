@@ -66,9 +66,9 @@ void IntegrationGraphic()
 
 int main(int argc, char** argv) {
 
-    IntegrationTest();
+    //IntegrationTest();
     //IntegrationGame();
-    //IntegrationGraphic();
+    IntegrationGraphic();
 
     //SDL_Surface* image = SDL_LoadBMP("Image/Tile_32.bmp");
     //if (!image)
