@@ -43,6 +43,7 @@ void IntegrationTest()
     o_test.win();
     o_test.lose();
 
+    o_test.getTab();
     o_test.getPath();
 
 }
@@ -52,23 +53,15 @@ void IntegrationGame()
     srand(time(NULL));
 
     Game* o_game = new Game(4,4);
-    o_game->startGame();
+    o_game->startGameGraphic();
     delete o_game;
 
-}
-
-void IntegrationGraphic()
-{
-    Window* o_window = new Window(4, 4, 50, 50, 640, 480);
-
-    o_window->startGraphicRender();
 }
 
 int main(int argc, char** argv) {
 
     //IntegrationTest();
-    //IntegrationGame();
-    IntegrationGraphic();
+    IntegrationGame();
 
     //SDL_Surface* image = SDL_LoadBMP("Image/Tile_32.bmp");
     //if (!image)

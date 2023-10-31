@@ -44,4 +44,5 @@ public:
 	void lose(); // méthode pour tester la lose
 
 	void getPath();
+	void getTab();
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Grid.h"
+#include "Window.h"
 
 /* Define de code pour chaque touche */
 #define KEY_UP 72
@@ -23,5 +24,6 @@ public :
 	Game(int x, int y); // constructor
 
 	void startGame(); // méthode pour lancer le jeu
+	void startGameGraphic(); // méthode pour lancer le jeu version graphique
 	void restartGame(); // méthode pour relancer le jeu
 };

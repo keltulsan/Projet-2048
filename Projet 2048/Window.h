@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL.h>
 #include "GameObject.h"
+#include "Grid.h"
 
 class Window 
 {
@@ -12,17 +13,22 @@ private:
 	int screenHeight;
 	int nbColonnes;
 	int nbLignes;
-	int TileSixeX;
-	int TileSixeY;
+	int tileSizeX;
+	int tileSizeY;
+	int interTileoffset;
+	int borderOffset;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	SDL_Texture* texture;
+	SDL_Surface* surface;
 
 public: 
-	Window(int nbColonnes, int nbLignes, int TileSixeX, int TileSixeY, int screenWidth, int screenHeight);
+	Window(int screenWidth, int screenHeight, int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset);
 
 	void initSDL();
 	void cleanUpSDL();
-	void startGraphicRender();
-	void gridDisplay();
+	void renderImage(int number, int x, int y, int h, int w);
+	void initGrid();
+	void graphicDisplay(Grid* o_grid);
 };
 

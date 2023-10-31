@@ -39,6 +39,11 @@ Grid::Grid(int config[4][4]) {
 	};
 };
 
+std::vector<std::vector<Tile*>> Grid::getTab() {
+	/* Methode pour récupérer la grille de jeu */
+	return this->tab;
+};
+
 bool Grid::compare(int config[4][4])
 {
 	/* Méthode pour comparer un type Grid* avec une liste dans une liste */    //#DEPRECATED
@@ -55,7 +60,7 @@ bool Grid::compare(int config[4][4])
 	return true;
 }
 
-bool Grid::compareVectorTile(Grid* tabCopy)
+bool Grid::compareVectorGrid(Grid* tabCopy)
 {
 	/* Méthode pour comparer un type Grid* avec un type Grid* */
 	for (int i = 0; i < this->sizeY; ++i) {
@@ -63,6 +68,22 @@ bool Grid::compareVectorTile(Grid* tabCopy)
 		for (int j = 0; j < this->sizeX; ++j)
 		{
 			if (tabCopy->tab[i][j]->getValue() != this->tab[i][j]->getValue()) {
+				return false;
+			}
+
+		}
+	};
+	return true;
+}
+
+bool Grid::compareVectorTile(std::vector<std::vector<Tile*>> tabCopy)
+{
+	/* Méthode pour comparer un type Grid* avec un type Tile* */
+	for (int i = 0; i < this->sizeY; ++i) {
+
+		for (int j = 0; j < this->sizeX; ++j)
+		{
+			if (tabCopy[i][j]->getValue() != this->tab[i][j]->getValue()) {
 				return false;
 			}
 
@@ -611,7 +632,7 @@ void Grid::playRight()
 	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
 	gridCopy->gridCreateCopy(this); // créer une copie de notre grille
 	this->right();
-	if (!(gridCopy->compareVectorTile(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
+	if (!(gridCopy->compareVectorGrid(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
 	{
 		this->tileSetRandomNumber(1);
 	}
@@ -624,7 +645,7 @@ void Grid::playLeft()
 	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
 	gridCopy->gridCreateCopy(this); // créer une copie de notre grille
 	this->left();
-	if (!(gridCopy->compareVectorTile(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
+	if (!(gridCopy->compareVectorGrid(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
 	{
 		this->tileSetRandomNumber(1);
 	}
@@ -637,7 +658,7 @@ void Grid::playUp()
 	Grid* gridCopy = new Grid(this->sizeX, this->sizeY);
 	gridCopy->gridCreateCopy(this); // créer une copie de notre grille
 	this->up();
-	if (!(gridCopy->compareVectorTile(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
+	if (!(gridCopy->compareVectorGrid(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
 	{
 		this->tileSetRandomNumber(1);
 	}
@@ -650,7 +671,7 @@ void Grid::playDown()
 	Grid* gridCopy = new Grid(this->sizeX, this->sizeY); 
 	gridCopy->gridCreateCopy(this); // créer une copie de notre grille
 	this->down();
-	if (!(gridCopy->compareVectorTile(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
+	if (!(gridCopy->compareVectorGrid(this))) // vérifie que notre grille soit différentes de la précédente pour éviter l'apparition de chiffre random
 	{
 		this->tileSetRandomNumber(1);
 	}
@@ -681,7 +702,7 @@ bool Grid::conditionGameLose()
 		tabCopy->up();
 		tabCopy->down();
 
-		if (this->compareVectorTile(tabCopy))
+		if (this->compareVectorGrid(tabCopy))
 		{
 			delete tabCopy;
 			return true;

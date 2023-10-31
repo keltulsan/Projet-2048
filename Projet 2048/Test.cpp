@@ -31,7 +31,7 @@ void Test::gridCreateCopy()
 	//grid.display();
 	grid2->gridCreateCopy(grid);
 	//grid2.display();
-	bool isSuccess = grid2->compareVectorTile(grid);
+	bool isSuccess = grid2->compareVectorGrid(grid);
 	std::cout << "Test Copy grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 	delete grid;
 	delete grid2;
@@ -651,7 +651,24 @@ void Test::lose()
 	std::cout << "Test Lose: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }
 
+void Test::getTab()
+{
+	/* Méthode pour tester pour récupérer le tableau de jeu */
+	int start[4][4] =
+	{
+		{2,4,8,16},
+		{4,8,16,2},
+		{8,16,2,4},
+		{16,2,4,8},
+	};
 
+	Grid grid(start);
+	std::vector<std::vector<Tile*>> gridResult = grid.getTab();
+
+	bool isSuccess = grid.compareVectorTile(gridResult);
+	std::cout << "Test Get Grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
+ 
 void Test::getPath()
 {
 	/* Méthode pour tester la lose */
