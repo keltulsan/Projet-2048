@@ -36,9 +36,9 @@ void Window::initSDL() {
 }
 
 void Window::cleanUpSDL() {
-    SDL_DestroyRenderer(this->renderer);
-    SDL_DestroyWindow(this->window);
-    SDL_Quit();
+    SDL_DestroyRenderer(this->renderer); // destruction du renderer
+    SDL_DestroyWindow(this->window);// destruction de la window
+    SDL_Quit(); // quite le moteur de rendu visuel
 }
 
 
@@ -167,3 +167,9 @@ SDL_Renderer* Window::getRenderer()
 {
     return this->renderer;
 }
+
+SDL_Window* Window::getWindow()
+{
+    return this->window;
+}
+

@@ -3,11 +3,26 @@
 #include <conio.h>
 
 
-Game::Game(int x, int y)
+Game::Game(int x, int y, int screenWidth, int screenHeight)
 {
 	this->sizeX = x;
 	this->sizeY = y;
 	this->isLoad = false;
+	this->isStarted = false;
+	this->screenWidth = screenWidth;
+	this->screenHeight = screenHeight;
+	this->winAndLoseX = (this->screenWidth - 1200) / 2;
+	this->winAndLoseY = ((this->screenHeight - 600) / 2) - 30;
+	this->winAndLoseW = 1200;
+	this->winAndLoseH = 600;
+
+	this->actionsX = (this->winAndLoseW - (2 * 200) - (1 * 50)) / 2;
+	this->actionsY = this->winAndLoseY + this->winAndLoseH + 20;
+	this->actionsW = 200;
+	this->actionsH = 100;
+
+	this->gapBetweenActions = 50;
+
 };
 
 void Game::initImageTile(SDL_Renderer* renderer)
@@ -45,24 +60,29 @@ void Game::initImageTexture(SDL_Renderer* renderer)
 		SDL_Surface* start = SDL_LoadBMP("Image/Start.bmp");
 		SDL_Surface* quit = SDL_LoadBMP("Image/Quit.bmp");
 		SDL_Surface* retry = SDL_LoadBMP("Image/Retry.bmp");
+		SDL_Surface* startScreen = SDL_LoadBMP("Image/StartScreen.bmp");
 
 		SDL_Texture* winImage = SDL_CreateTextureFromSurface(renderer, win);
 		SDL_Texture* loseImage = SDL_CreateTextureFromSurface(renderer, lose);
 		SDL_Texture* startImage = SDL_CreateTextureFromSurface(renderer, start);
 		SDL_Texture* quitImage = SDL_CreateTextureFromSurface(renderer, quit);
 		SDL_Texture* retryImage = SDL_CreateTextureFromSurface(renderer, retry);
+		SDL_Texture* startScreenImage = SDL_CreateTextureFromSurface(renderer, startScreen);
 
 		SDL_FreeSurface(win); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
 		SDL_FreeSurface(lose); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
 		SDL_FreeSurface(start); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
 		SDL_FreeSurface(quit); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
 		SDL_FreeSurface(retry); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+		SDL_FreeSurface(startScreen); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
 
 		this->imageActions[0] = startImage;
 		this->imageActions[1] = retryImage;
 		this->imageActions[2] = quitImage;
 		this->imageActions[3] = winImage;
 		this->imageActions[4] = loseImage;
+
+		this->imageStartScreen[0] = startScreenImage;
 
 		this->isLoad = true;
 	}
@@ -86,19 +106,19 @@ SDL_Texture** Game::getTileTexture()
 	return this->imageTextures;
 }
 
-void Game::endGameDisplay(int number, int screenWidth, int screenHeight, SDL_Renderer* renderer)
+void Game::endGameDisplay(int number, SDL_Renderer* renderer)
 {
 	SDL_Rect winAndLose;
-	winAndLose.x = (screenWidth - 1200) / 2;
-	winAndLose.y = ((screenHeight - 600) / 2) - 30;
-	winAndLose.h = 600;
-	winAndLose.w = 1200;
+	winAndLose.x = this->winAndLoseX;
+	winAndLose.y = this->winAndLoseY;
+	winAndLose.h = this->winAndLoseH;
+	winAndLose.w = this->winAndLoseW;
 
 	SDL_Rect actions;
-	actions.x = (winAndLose.x + (winAndLose.w - (3*200) - (2*50)))/2;
-	actions.y = winAndLose.y + winAndLose.h + 20;
-	actions.h = 100;
-	actions.w = 200;
+	actions.x = this->actionsX;
+	actions.y = this->actionsY;
+	actions.h = this->actionsH;
+	actions.w = this->actionsW;
 
 	if (number == 1)
 	{
@@ -108,19 +128,40 @@ void Game::endGameDisplay(int number, int screenWidth, int screenHeight, SDL_Ren
 	{
 		SDL_RenderCopy(renderer, this->imageActions[lose], NULL, &winAndLose);
 	}
-	SDL_RenderCopy(renderer, this->imageActions[start], NULL, &actions);
-
-	actions.x += 250;
 
 	SDL_RenderCopy(renderer, this->imageActions[restart], NULL, &actions);
 
-	actions.x += 250;
+	actions.x += this->actionsW + this->gapBetweenActions;
 
 	SDL_RenderCopy(renderer, this->imageActions[quit], NULL, &actions);
 
 	SDL_RenderPresent(renderer);
 }
 
+
+void Game::startGameDisplay(SDL_Renderer* renderer)
+{
+	SDL_Rect startScreen;
+	startScreen.x = 0;
+	startScreen.y = 0;
+	startScreen.h = this->screenHeight;
+	startScreen.w = this->screenWidth;
+
+	SDL_Rect action;
+	action.x = this->actionsX + 60;
+	action.y = 325;
+	action.h = this->actionsH;
+	action.w = this->actionsW;
+
+	SDL_RenderCopy(renderer, this->imageStartScreen[0], NULL, &startScreen);
+
+	SDL_RenderCopy(renderer, this->imageActions[start], NULL, &action);
+	action.x += this->actionsW + this->gapBetweenActions;
+	SDL_RenderCopy(renderer, this->imageActions[quit], NULL, &action);
+
+	SDL_RenderPresent(renderer);
+
+}
 
 void Game::startGame()
 {
@@ -177,44 +218,98 @@ void Game::startGame()
 void Game::startGameGraphic()
 {
 	/* Méthode pour lancer le jeu version graphique */
+	bool isGameOver = false;
+
 	SDL_Event event;
 
-	int screenWidth = 1280;
-	int screenHeight = 800;
-
 	Grid* o_grid = new Grid(this->sizeX, this->sizeY);
-	Window* o_window = new Window(screenWidth, screenHeight, this->sizeX, this->sizeY, 150, 150, 25, 15);
+	Window* o_window = new Window(this->screenWidth, this->screenHeight, this->sizeX, this->sizeY, 150, 150, 25, 15);
 
 	this->initImageTexture(o_window->getRenderer());
 
-	o_grid->tileSetRandomNumber(2);
-	o_window->graphicDisplay(o_grid, this->getTileTexture());
+	if (!this->isStarted)
+	{
+		this->startGameDisplay(o_window->getRenderer());
+		isGameOver = true;
+	}
+	
+
 
 	while (1) {
 		//EVENT
-		int keyValue = 0;// _getch();
-		while (SDL_PollEvent(&event))
+		if (!isGameOver)
 		{
-			if (event.type == SDL_KEYUP)
+			while (SDL_PollEvent(&event) && isGameOver == false)
 			{
-				if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_z) {
-					// key up
-					o_grid->playUp();
-				}
 
-				else if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) {
-					// key down
-					o_grid->playDown();
-				}
+				if (event.type == SDL_KEYUP)
+				{
+					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_z) {
+						// key up
+						o_grid->playUp();
+					}
 
-				else if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_q) {
-					// key left
-					o_grid->playLeft();
-				}
+					else if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) {
+						// key down
+						o_grid->playDown();
+					}
 
-				else if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d) {
-					// key right
-					o_grid->playRight();
+					else if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_q) {
+						// key left
+						o_grid->playLeft();
+					}
+
+					else if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d) {
+						// key right
+						o_grid->playRight();
+					}
+				}
+			}
+		}
+		else if (isGameOver)
+		{
+			while (SDL_WaitEvent(&event) && isGameOver)
+			{
+		
+				if (event.type == SDL_MOUSEBUTTONDOWN)
+				{
+					if (event.button.button == SDL_BUTTON_LEFT)
+					{
+						
+						if (!this->isStarted && event.button.x >= (this->actionsX + 60) && event.button.x <= ((this->actionsX + 60) + this->actionsW) && event.button.y >= 325 && event.button.y <= (325 + this->actionsH))
+						{
+							// condition pour vérifier si la souris de l'utilisateur se trouve sur le bouton start du menu d'accueil
+							this->isStarted = true;
+							isGameOver = false;
+							o_window->initGrid();
+							o_grid->tileSetRandomNumber(2);
+							o_window->graphicDisplay(o_grid, this->getTileTexture());
+
+						}
+						else if (!this->isStarted && event.button.x >= ((this->actionsX + 60) + this->actionsW + this->gapBetweenActions) && event.button.x <= ((this->actionsX + 60) + this->actionsW + (this->actionsW + this->gapBetweenActions)) && event.button.y >= 325 && event.button.y <= (325 + this->actionsH))
+						{
+							// condition pour vérifier si la souris de l'utilisateur se trouve sur le bouton quit du menu d'accueil
+							this->isStarted = true;
+							o_window->cleanUpSDL();
+							this->destroyTextures();
+							return;
+
+						}
+						else if (this->isStarted && event.button.x >= this->actionsX && event.button.x <= (this->actionsX + this->actionsW) && event.button.y >= this->actionsY && event.button.y <= (this->actionsY + this->actionsH))
+						{
+							// condition pour vérifier si la souris de l'utilisateur se trouve sur le bouton restart
+
+							this->startGameGraphic();
+						}
+						else if (this->isStarted && event.button.x >= (this->actionsX + this->actionsW + this->gapBetweenActions) && event.button.x <= (this->actionsX + this->actionsW + (this->actionsW + this->gapBetweenActions)) && event.button.y >= this->actionsY && event.button.y <= (this->actionsY + this->actionsH))
+						{
+							// condition pour vérifier si la souris de l'utilisateur se trouve sur le bouton quit
+
+							o_window->cleanUpSDL();
+							this->destroyTextures();
+							return;
+						}
+					}
 				}
 			}
 		}
@@ -227,29 +322,21 @@ void Game::startGameGraphic()
 		/* Vérification de win et lose */
 		if (o_grid->conditionGameWin())
 		{
-			this->endGameDisplay(1, screenWidth,screenHeight, o_window->getRenderer());
+			this->endGameDisplay(1, o_window->getRenderer());
+			isGameOver = true;
 
 			delete o_grid;
 			delete o_window;
-
-			this->restartGame();
-
-			return;
 		}
 		else if (o_grid->conditionGameLose())
 		{
-			this->endGameDisplay(0, screenWidth, screenHeight, o_window->getRenderer());
+			this->endGameDisplay(0, o_window->getRenderer());
+			isGameOver = true;
 
 			delete o_grid;
 			delete o_window;
-
-			this->restartGame();
-
-			return;
 		}
 	}
-	o_window->cleanUpSDL();
-	this->destroyTextures();
 }
 
 void Game::restartGame()

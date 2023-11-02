@@ -46,5 +46,6 @@ public:
 	void initGrid();
 	void graphicDisplay(Grid* o_grid, SDL_Texture** imageTexture);
 	SDL_Renderer* getRenderer();
+	SDL_Window* getWindow();
 };
 

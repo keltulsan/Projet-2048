@@ -52,7 +52,7 @@ void IntegrationGame()
 {
     srand(time(NULL));
 
-    Game* o_game = new Game(4,4);
+    Game* o_game = new Game(4,4, 1280, 800);
     o_game->startGameGraphic();
     delete o_game;
 

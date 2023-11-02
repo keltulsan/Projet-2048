@@ -152,6 +152,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\StartScreen.bmp" />
     <Image Include="Image\lose.bmp" />
     <Image Include="Image\Quit.bmp" />
     <Image Include="Image\Retry.bmp" />
