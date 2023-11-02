@@ -51,6 +51,7 @@ void Window::initGrid()
     SDL_SetRenderDrawColor(this->renderer, 118, 111, 100, 255);
     SDL_RenderClear(this->renderer);
 
+    /* Affichage de la grille */
     SDL_Rect backGrid;
     backGrid.x = startX;
     backGrid.y = startY;
@@ -60,6 +61,7 @@ void Window::initGrid()
     SDL_SetRenderDrawColor(this->renderer, 159, 159, 159, 180);
     SDL_RenderFillRect(this->renderer, &backGrid);
 
+    /* Affichage des box de la grille */
     for (int i = 0; i < this->nbColonnes; i++)
     {
         for (int j = 0; j < this->nbLignes; j++)
