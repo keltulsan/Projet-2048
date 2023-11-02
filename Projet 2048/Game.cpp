@@ -292,6 +292,8 @@ void Game::startGameGraphic()
 							this->isStarted = true;
 							o_window->cleanUpSDL();
 							this->destroyTextures();
+							delete o_window;
+							delete o_grid;
 							return;
 
 						}
@@ -307,6 +309,8 @@ void Game::startGameGraphic()
 
 							o_window->cleanUpSDL();
 							this->destroyTextures();
+							delete o_window; 
+							delete o_grid;
 							return;
 						}
 					}
@@ -324,17 +328,11 @@ void Game::startGameGraphic()
 		{
 			this->endGameDisplay(1, o_window->getRenderer());
 			isGameOver = true;
-
-			delete o_grid;
-			delete o_window;
 		}
 		else if (o_grid->conditionGameLose())
 		{
 			this->endGameDisplay(0, o_window->getRenderer());
 			isGameOver = true;
-
-			delete o_grid;
-			delete o_window;
 		}
 	}
 }
