@@ -1,5 +1,6 @@
 #include "Test.h"
 #include "Grid.h"
+#include "GameObject.h"
 
 Grid* o_grid = new Grid(4, 4);
 
@@ -30,7 +31,7 @@ void Test::gridCreateCopy()
 	//grid.display();
 	grid2->gridCreateCopy(grid);
 	//grid2.display();
-	bool isSuccess = grid2->compareVectorTile(grid);
+	bool isSuccess = grid2->compareVectorGrid(grid);
 	std::cout << "Test Copy grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 	delete grid;
 	delete grid2;
@@ -648,4 +649,33 @@ void Test::lose()
 	Grid grid(start);
 	bool isSuccess = grid.conditionGameLose();
 	std::cout << "Test Lose: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
+
+void Test::getTab()
+{
+	/* Méthode pour tester pour récupérer le tableau de jeu */
+	int start[4][4] =
+	{
+		{2,4,8,16},
+		{4,8,16,2},
+		{8,16,2,4},
+		{16,2,4,8},
+	};
+
+	Grid grid(start);
+	std::vector<std::vector<Tile*>> gridResult = grid.getTab();
+
+	bool isSuccess = grid.compareVectorTile(gridResult);
+	std::cout << "Test Get Grid: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
+}
+ 
+void Test::getPath()
+{
+	/* Méthode pour tester la récupération d'un chemin */
+	std::string result = "Image/Tile_2.bmp";
+
+	GameObject gameObject(2);
+	gameObject.setPath();
+	bool isSuccess = gameObject.getPath() == result;
+	std::cout << "Test GetPath: " << (isSuccess ? "SUCCESS" : "FAILURE") << std::endl;
 }

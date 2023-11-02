@@ -26,9 +26,12 @@ private:
 public:
 	Grid(int x, int y); // constructor avec coordonées
 	Grid(int config[4][4]); // constructor avec une liste dans une liste     //# DEPRECATED
+
+	std::vector<std::vector<Tile*>> getTab();
 	 
 	bool compare(int config[4][4]); // méthode pour comparer un type Grid* avec une liste dans une liste     //# DEPRECATED
-	bool compareVectorTile(Grid* tabCopy); // méthode pour comparer un type Grid* avec un type Grid*
+	bool compareVectorGrid(Grid* tabCopy); // méthode pour comparer un type Grid* avec un type Grid*
+	bool compareVectorTile(std::vector<std::vector<Tile*>> tabCopy); // méthode pour comparer un type Grid* avec un type Tile*       //# DEPRECATED
 
 	void gridCreateCopy(Grid* tabCopy); // méthode pour créer la copie d'un type Grid* depuis un type Grid*
 

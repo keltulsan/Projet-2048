@@ -3,9 +3,18 @@
 #include "Tile.h"
 #include "Game.h"
 #include "Test.h"
+#include "GameObject.h"
+#include "Window.h"
 #include <Windows.h>
 #include <vector>
 
+#include <SDL.h>
+
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+const int GRID_SIZE = 4;
+const int TILE_SIZE = 100;
 
 void IntegrationTest() 
 {
@@ -33,20 +42,34 @@ void IntegrationTest()
     o_test.right();
     o_test.win();
     o_test.lose();
+
+    o_test.getTab();
+    o_test.getPath();
+
 }
 
 void IntegrationGame()
 {
     srand(time(NULL));
 
-    Game* o_game = new Game(4,4);
-    o_game->startGame();
+    Game* o_game = new Game(4,4, 1280, 800);
+    std::string response;
+    std::cout << "Si vous vouler jouer avec la version console taper 'c', si vous voulez jouer avec la version graphique taper 'g'" << std::endl;
+    std::cin >> response;
+    if (response == "g" || response == "G")
+    {
+        o_game->startGameGraphic();
+    }
+    else if (response == "c" || response == "C")
+    {
+        o_game->startGame();
+    }
     delete o_game;
 
 }
 
-int main()
-{
+int main(int argc, char** argv) {
+
     //IntegrationTest();
     IntegrationGame();
 

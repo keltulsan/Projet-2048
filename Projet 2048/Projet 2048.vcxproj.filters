@@ -25,6 +25,21 @@
     <Filter Include="Fichiers sources\Game">
       <UniqueIdentifier>{65dc15fc-1c5c-4264-8fe2-2617e251e3b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\GameObject">
+      <UniqueIdentifier>{4706c3e2-6bf8-4bc0-9ffe-8ac56321f4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Window">
+      <UniqueIdentifier>{09aa56f4-dbf7-4e51-bdad-faeb06c7e9fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Image">
+      <UniqueIdentifier>{912bfda6-e92f-4463-be35-1664cd7896d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Image\Tiles">
+      <UniqueIdentifier>{e012ae3d-b1d5-4e2b-a436-ecf7f8dcb44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Image\Win/Lose">
+      <UniqueIdentifier>{989af48c-bdd4-452f-b583-a9f44c4838fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +57,12 @@
     <ClCompile Include="Game.cpp">
       <Filter>Fichiers sources\Game</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Fichiers sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Fichiers sources\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Grid.h">
@@ -56,5 +77,52 @@
     <ClInclude Include="Game.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\lose.bmp">
+      <Filter>Fichiers de ressources\Image\Win/Lose</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\win.bmp">
+      <Filter>Fichiers de ressources\Image\Win/Lose</Filter>
+    </Image>
+    <Image Include="Image\Tile_2.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_4.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_8.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_16.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_32.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_64.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_128.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_256.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_512.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_1024.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_2048.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
   </ItemGroup>
 </Project>
