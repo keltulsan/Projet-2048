@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "GameObject.h"
 #include "Grid.h"
+#include "Game.h"
 
 typedef enum TextureLabel
 {
@@ -32,11 +33,8 @@ private:
 	int tileSizeY;
 	int interTileoffset;
 	int borderOffset;
-	SDL_Texture* imageTextures[11];
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Texture* texture;
-	SDL_Surface* surface;
 
 public:
 	Window(int screenWidth, int screenHeight, int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset);
@@ -44,10 +42,9 @@ public:
 	void init();
 	void initSDL();
 	void cleanUpSDL();
-	void renderImage(int number, int x, int y, int h, int w);
+	void renderImage(int number, int x, int y, int h, int w, SDL_Texture** imageTexture);
 	void initGrid();
-	void graphicDisplay(Grid* o_grid);
-	void initImageTexture();
+	void graphicDisplay(Grid* o_grid, SDL_Texture** imageTexture);
 	SDL_Renderer* getRenderer();
 };
 

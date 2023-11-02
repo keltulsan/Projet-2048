@@ -13,12 +13,24 @@
 #define KEY_Q 113
 #define KEY_D 100
 
+typedef enum Actions
+{
+	start = 0,
+	restart = 1,
+	quit = 2,
+	win = 3,
+	lose = 4
+};
+
 class Game
 {
 	/* Classe pour jouer au 2048 version console */
 private:
 	int sizeX; // taille de la grille en x
 	int sizeY; // taille de la grille en y
+	bool isLoad;
+	SDL_Texture* imageTextures[11];
+	SDL_Texture* imageActions[5];
 
 public :
 	Game(int x, int y); // constructor
@@ -26,4 +38,9 @@ public :
 	void startGame(); // méthode pour lancer le jeu
 	void startGameGraphic(); // méthode pour lancer le jeu version graphique
 	void restartGame(); // méthode pour relancer le jeu
+	void initImageTile(SDL_Renderer* renderer);
+	void initImageTexture(SDL_Renderer* renderer);
+	void destroyTextures();
+	void endGameDisplay(int number, int screenWidth, int screenHeight, SDL_Renderer* renderer);
+	SDL_Texture** getTileTexture();
 };

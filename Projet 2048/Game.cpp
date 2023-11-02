@@ -7,7 +7,119 @@ Game::Game(int x, int y)
 {
 	this->sizeX = x;
 	this->sizeY = y;
+	this->isLoad = false;
 };
+
+void Game::initImageTile(SDL_Renderer* renderer)
+{
+
+	int value = 2;
+
+	for (int i = 0; i < 11; i++)
+	{
+		GameObject* o_gameObject = new GameObject(value);
+		o_gameObject->setPath();
+
+		SDL_Surface* image = SDL_LoadBMP(o_gameObject->getPath().c_str()); // envoie d'un string qui est ensuite modifier en char* avec la fonction c_str()
+		SDL_Texture* myImage = SDL_CreateTextureFromSurface(renderer, image);  //La texture monImage contient maintenant l'image importée
+
+		SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+
+
+		this->imageTextures[i] = myImage;
+
+		delete o_gameObject;
+
+		value += value;
+	}
+}
+
+void Game::initImageTexture(SDL_Renderer* renderer)
+{
+	if (!this->isLoad)
+	{
+		this->initImageTile(renderer);
+
+		SDL_Surface* win = SDL_LoadBMP("Image/win.bmp");
+		SDL_Surface* lose = SDL_LoadBMP("Image/lose.bmp");
+		SDL_Surface* start = SDL_LoadBMP("Image/Start.bmp");
+		SDL_Surface* quit = SDL_LoadBMP("Image/Quit.bmp");
+		SDL_Surface* retry = SDL_LoadBMP("Image/Retry.bmp");
+
+		SDL_Texture* winImage = SDL_CreateTextureFromSurface(renderer, win);
+		SDL_Texture* loseImage = SDL_CreateTextureFromSurface(renderer, lose);
+		SDL_Texture* startImage = SDL_CreateTextureFromSurface(renderer, start);
+		SDL_Texture* quitImage = SDL_CreateTextureFromSurface(renderer, quit);
+		SDL_Texture* retryImage = SDL_CreateTextureFromSurface(renderer, retry);
+
+		SDL_FreeSurface(win); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+		SDL_FreeSurface(lose); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+		SDL_FreeSurface(start); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+		SDL_FreeSurface(quit); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+		SDL_FreeSurface(retry); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+
+		this->imageActions[0] = startImage;
+		this->imageActions[1] = retryImage;
+		this->imageActions[2] = quitImage;
+		this->imageActions[3] = winImage;
+		this->imageActions[4] = loseImage;
+
+		this->isLoad = true;
+	}
+}
+
+void Game::destroyTextures()
+{
+	for (int i = 0; i < 11; i++)
+	{
+		SDL_DestroyTexture(this->imageTextures[i]);
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		SDL_DestroyTexture(this->imageActions[i]);
+	}
+}
+
+SDL_Texture** Game::getTileTexture()
+{
+	return this->imageTextures;
+}
+
+void Game::endGameDisplay(int number, int screenWidth, int screenHeight, SDL_Renderer* renderer)
+{
+	SDL_Rect winAndLose;
+	winAndLose.x = (screenWidth - 1200) / 2;
+	winAndLose.y = ((screenHeight - 600) / 2) - 30;
+	winAndLose.h = 600;
+	winAndLose.w = 1200;
+
+	SDL_Rect actions;
+	actions.x = (winAndLose.x + (winAndLose.w - (3*200) - (2*50)))/2;
+	actions.y = winAndLose.y + winAndLose.h + 20;
+	actions.h = 100;
+	actions.w = 200;
+
+	if (number == 1)
+	{
+		SDL_RenderCopy(renderer, this->imageActions[win], NULL, &winAndLose);
+	}
+	else
+	{
+		SDL_RenderCopy(renderer, this->imageActions[lose], NULL, &winAndLose);
+	}
+	SDL_RenderCopy(renderer, this->imageActions[start], NULL, &actions);
+
+	actions.x += 250;
+
+	SDL_RenderCopy(renderer, this->imageActions[restart], NULL, &actions);
+
+	actions.x += 250;
+
+	SDL_RenderCopy(renderer, this->imageActions[quit], NULL, &actions);
+
+	SDL_RenderPresent(renderer);
+}
 
 
 void Game::startGame()
@@ -70,21 +182,13 @@ void Game::startGameGraphic()
 	int screenWidth = 1280;
 	int screenHeight = 800;
 
-	SDL_Rect rect;/*
-	rect.x = (screenWidth - 800) / 2;
-	rect.y = (screenHeight - 400) / 2;*/
-	rect.x = 0;
-	rect.y = 0;
-	rect.h = 800;
-	rect.w = 400;
-
 	Grid* o_grid = new Grid(this->sizeX, this->sizeY);
 	Window* o_window = new Window(screenWidth, screenHeight, this->sizeX, this->sizeY, 150, 150, 25, 15);
 
-	o_window->init();
+	this->initImageTexture(o_window->getRenderer());
 
 	o_grid->tileSetRandomNumber(2);
-	o_window->graphicDisplay(o_grid);
+	o_window->graphicDisplay(o_grid, this->getTileTexture());
 
 	while (1) {
 		//EVENT
@@ -115,21 +219,15 @@ void Game::startGameGraphic()
 			}
 		}
 
-		//DRAW
-		o_window->graphicDisplay(o_grid);
+	//	//DRAW
+		o_window->graphicDisplay(o_grid, this->getTileTexture());
 
-		//UPDATE
+	//	//UPDATE
 
 		/* Vérification de win et lose */
 		if (o_grid->conditionGameWin())
 		{
-			SDL_Surface* image = SDL_LoadBMP("Image/win.bmp");
-			SDL_Texture* myImage = SDL_CreateTextureFromSurface(o_window->getRenderer(), image);
-
-			SDL_RenderCopy(o_window->getRenderer(), myImage, NULL, &rect);
-			SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
-
-			o_window->cleanUpSDL();
+			this->endGameDisplay(1, screenWidth,screenHeight, o_window->getRenderer());
 
 			delete o_grid;
 			delete o_window;
@@ -140,18 +238,7 @@ void Game::startGameGraphic()
 		}
 		else if (o_grid->conditionGameLose())
 		{
-			SDL_Surface* image = SDL_LoadBMP("Image/lose.bmp");
-			SDL_Texture* myImage = SDL_CreateTextureFromSurface(o_window->getRenderer(), image);
-
-			if (myImage == NULL)
-			{
-				std::cout << "null";
-			}
-
-			SDL_RenderCopy(o_window->getRenderer(), myImage, NULL, &rect);
-			SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
-
-			//o_window->cleanUpSDL();
+			this->endGameDisplay(0, screenWidth, screenHeight, o_window->getRenderer());
 
 			delete o_grid;
 			delete o_window;
@@ -160,8 +247,9 @@ void Game::startGameGraphic()
 
 			return;
 		}
-
 	}
+	o_window->cleanUpSDL();
+	this->destroyTextures();
 }
 
 void Game::restartGame()

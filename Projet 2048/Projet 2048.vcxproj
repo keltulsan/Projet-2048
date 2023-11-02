@@ -71,9 +71,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)..\SDL2-2.28.4\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\SDL2-2.28.4\lib\x64;$(ProjectDir)..\SDL2_mixer-2.6.3\lib\x64;$(LibraryPath)</LibraryPath>
     <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
-    <IncludePath>$(ProjectDir)..\SDL2-2.28.4\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\SDL2-2.28.4\include;$(ProjectDir)..\SDL2_mixer-2.6.3\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,13 +109,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.28.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.28.4\include;$(ProjectDir)..\SDL2_mixer-2.6.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.28.4\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.28.4\lib\x64;$(ProjectDir)..\SDL2_mixer-.2.6.3\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,8 +152,10 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\lose.bmp" />
-    <Image Include="..\..\..\..\Downloads\win.bmp" />
+    <Image Include="Image\lose.bmp" />
+    <Image Include="Image\Quit.bmp" />
+    <Image Include="Image\Retry.bmp" />
+    <Image Include="Image\Start.bmp" />
     <Image Include="Image\Tile_1024.bmp" />
     <Image Include="Image\Tile_128.bmp" />
     <Image Include="Image\Tile_16.bmp" />
@@ -165,6 +167,7 @@
     <Image Include="Image\Tile_512.bmp" />
     <Image Include="Image\Tile_64.bmp" />
     <Image Include="Image\Tile_8.bmp" />
+    <Image Include="Image\win.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
