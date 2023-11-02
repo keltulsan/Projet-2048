@@ -54,8 +54,12 @@ void IntegrationGame()
 
     Game* o_game = new Game(4,4, 1280, 800);
     std::string response;
-    std::cout << "Si vous vouler jouer avec la version console taper 'c', si vous voulez jouer avec la version graphique taper 'g'" << std::endl;
-    std::cin >> response;
+    while (response != "g" && response != "G" && response != "c" && response != "C") 
+    {
+        std::cout << "Si vous vouler jouer avec la version console taper 'c', si vous voulez jouer avec la version graphique taper 'g'" << std::endl;
+        std::cin >> response;
+    }
+   
     if (response == "g" || response == "G")
     {
         o_game->startGameGraphic();
