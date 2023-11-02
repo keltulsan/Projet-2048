@@ -671,7 +671,7 @@ void Test::getTab()
  
 void Test::getPath()
 {
-	/* Méthode pour tester la lose */
+	/* Méthode pour tester la récupération d'un chemin */
 	std::string result = "Image/Tile_2.bmp";
 
 	GameObject gameObject(2);

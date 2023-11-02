@@ -43,6 +43,6 @@ public:
 	void win(); // méthode pour tester la win
 	void lose(); // méthode pour tester la lose
 
-	void getPath();
-	void getTab();
+	void getPath(); // méthode pour tester la récupération d'un chemin 
+	void getTab(); // méthode pour tester la récupération d'un tableau
 };

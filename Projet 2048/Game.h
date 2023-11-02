@@ -15,6 +15,7 @@
 
 typedef enum Actions
 {
+	// enum pour avoir un texte pour un id
 	start = 0,
 	restart = 1,
 	quit = 2,
@@ -56,9 +57,9 @@ public :
 	void initImageTexture(SDL_Renderer* renderer); // méthode pour initialiser toutes les textures
 	void destroyTextures(); // méthode pour détruire toutes les textures
 	SDL_Texture** getTileTexture(); // méthode qui renvoie un tableau des textures tiles
+	void startGameDisplay(SDL_Renderer* renderer); // méthode pour afficher le menu de début de partie
 	void startGame(); // méthode pour lancer le jeu
 	void startGameGraphic(); // méthode pour lancer le jeu version graphique
 	void restartGame(); // méthode pour relancer le jeu
 	void endGameDisplay(int number, SDL_Renderer* renderer); // méthode pour afficher le menu de fin de partie
-	void startGameDisplay(SDL_Renderer* renderer); // méthode pour afficher le menu de début de partie
 };

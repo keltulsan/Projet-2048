@@ -37,15 +37,14 @@ private:
 	SDL_Renderer* renderer;
 
 public:
-	Window(int screenWidth, int screenHeight, int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset);
+	Window(int screenWidth, int screenHeight, int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset); // constructor
 
-	void init();
-	void initSDL();
-	void cleanUpSDL();
-	void renderImage(int number, int x, int y, int h, int w, SDL_Texture** imageTexture);
-	void initGrid();
-	void graphicDisplay(Grid* o_grid, SDL_Texture** imageTexture);
-	SDL_Renderer* getRenderer();
-	SDL_Window* getWindow();
+	void initSDL(); // méthode pour initialiser SDL
+	void initGrid();// méthode pour initialiser l'affichage de la grille 
+	void renderImage(int number, int x, int y, int h, int w, SDL_Texture** imageTexture); // méthode pour afficher nos chiffres
+	void graphicDisplay(Grid* o_grid, SDL_Texture** imageTexture); // méthode pour afficher la grille de jeu
+	SDL_Renderer* getRenderer(); // méthode pour récupérer un renderer
+	SDL_Window* getWindow(); // méthode pour récupérer une window
+	void cleanUpSDL(); // méthode pour détruire SDL
 };
 

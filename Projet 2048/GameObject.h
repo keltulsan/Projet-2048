@@ -12,8 +12,8 @@ private:
 	std::string path;
 
 public:
-	GameObject(int number);
+	GameObject(int number); // constructor
 
-	void setPath();
-	std::string getPath();
+	void setPath(); // méthode pour définir le chemin le chemin
+	std::string getPath(); // méthode pour récupérer le chemin
 };
