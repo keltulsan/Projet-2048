@@ -53,7 +53,17 @@ void IntegrationGame()
     srand(time(NULL));
 
     Game* o_game = new Game(4,4, 1280, 800);
-    o_game->startGameGraphic();
+    std::string response;
+    std::cout << "Si vous vouler jouer avec la version console taper 'c', si vous voulez jouer avec la version graphique taper 'g'" << std::endl;
+    std::cin >> response;
+    if (response == "g" || response == "G")
+    {
+        o_game->startGameGraphic();
+    }
+    else if (response == "c" || response == "C")
+    {
+        o_game->startGame();
+    }
     delete o_game;
 
 }
@@ -63,16 +73,5 @@ int main(int argc, char** argv) {
     //IntegrationTest();
     IntegrationGame();
 
-    //SDL_Surface* image = SDL_LoadBMP("Image/Tile_32.bmp");
-    //if (!image)
-    //{
-    //    std::cout << "Erreur de chargement de l'image :  " << SDL_GetError();
-    //    return -1;
-    //}
-
-    //SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  //La texture monImage contient maintenant l'image importée
-    //SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
-
-  
     return 0;
 }

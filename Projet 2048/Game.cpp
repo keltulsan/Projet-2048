@@ -346,12 +346,12 @@ void Game::restartGame()
 	std::string isGraphic = "";
 	std::cout << "Voulez vous rejouer ? (y or n)" << std::endl; // demande à l'utilisateur via la console
 	std::cin >> response;
-	if (response == "y")
+	if (response == "y" || response == "Y")
 	{
 		// y pour yes
 		std::cout << "Voulez vous que cette nouvelle partie soit en version graphique ? (y or n)" << std::endl; // demande à l'utilisateur via la console
 		std::cin >> isGraphic;
-		if (isGraphic == "y")
+		if (isGraphic == "y" || isGraphic == "Y")
 		{
 			this->startGameGraphic();
 		}
