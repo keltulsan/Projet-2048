@@ -152,6 +152,8 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\lose.bmp" />
+    <Image Include="..\..\..\..\Downloads\win.bmp" />
     <Image Include="Image\Tile_1024.bmp" />
     <Image Include="Image\Tile_128.bmp" />
     <Image Include="Image\Tile_16.bmp" />

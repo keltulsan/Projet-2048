@@ -1,11 +1,11 @@
 #include "Window.h"
 
-Window::Window(int screenWidth, int screenHeight,int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset)
+Window::Window(int screenWidth, int screenHeight, int nbColonnes, int nbLignes, int tileSizeX, int tileSizeY, int interTileoffset, int borderOffset)
 {
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
-	this->nbColonnes = nbColonnes;
-	this->nbLignes = nbLignes;
+    this->nbColonnes = nbColonnes;
+    this->nbLignes = nbLignes;
     this->tileSizeX = tileSizeX;
     this->tileSizeY = tileSizeY;
     this->interTileoffset = interTileoffset;
@@ -41,46 +41,96 @@ void Window::cleanUpSDL() {
     SDL_Quit();
 }
 
-//typedef enum TextureLabel
-//{
-//    Case0 = 0,
-//    Case2 = 1,
-//    Case4 = 2,
-//};
-//SDL_Texture* textures[2];
-//
-//textures[Case0];
-//
-//textures[Case2];
+void Window::init() {
+    this->initSDL();
+    this->initImageTexture();
+    this->initGrid();
+}
+
+void Window::initImageTexture()
+{
+    int value = 2;
+
+    for (int i = 0; i < 11; i++)
+    {
+        GameObject* o_gameObject = new GameObject(value);
+        o_gameObject->setPath();
+
+        SDL_Surface* image = SDL_LoadBMP(o_gameObject->getPath().c_str()); // envoie d'un string qui est ensuite modifier en char* avec la fonction c_str()
+        SDL_Texture* myImage = SDL_CreateTextureFromSurface(this->renderer, image);  //La texture monImage contient maintenant l'image importée
+
+        if (myImage == NULL)
+        {
+            std::cout << value << std::endl;
+        }
+
+        SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+
+
+        this->imageTextures[i] = myImage;
+
+        delete o_gameObject;
+
+
+        value += value;
+    }
+}
 
 
 void Window::renderImage(int number, int x, int y, int h, int w)
 {
-    GameObject* o_gameObject = new GameObject(number);
-    o_gameObject->setPath();
-
     SDL_Rect tile;
     tile.x = x;
     tile.y = y;
     tile.h = h;
     tile.w = w;
 
-    if (number != 0)
+    switch (number)
     {
+    case 2:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case2], NULL, &tile);
+        break;
 
-        SDL_Surface* image = SDL_LoadBMP(o_gameObject->getPath().c_str()); // envoie d'un string qui est ensuite modifier en char* avec la fonction c_str()
-        SDL_Texture* monImage = SDL_CreateTextureFromSurface(this->renderer, image);  //La texture monImage contient maintenant l'image importée
+    case 4:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case4], NULL, &tile);
+        break;
 
-        SDL_RenderCopy(this->renderer, monImage, NULL, &tile);
-        SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
+    case 8:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case8], NULL, &tile);
+        break;
 
-        delete o_gameObject;
+    case 16:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case16], NULL, &tile);
+        break;
+
+    case 32:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case32], NULL, &tile);
+        break;
+
+    case 64:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case64], NULL, &tile);
+        break;
+
+    case 128:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case128], NULL, &tile);
+        break;
+
+    case 256:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case256], NULL, &tile);
+        break;
+
+    case 512:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case512], NULL, &tile);
+        break;
+
+    case 1024:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case1024], NULL, &tile);
+        break;
+
+    case 2048:
+        SDL_RenderCopy(this->renderer, this->imageTextures[Case2048], NULL, &tile);
+        break;
     }
-    else {
-        SDL_SetRenderDrawColor(this->renderer, 159, 159, 159, 180);
-        SDL_RenderFillRect(this->renderer, &tile);
-    }
-
 }
 
 void Window::initGrid()
@@ -133,6 +183,8 @@ void Window::graphicDisplay(Grid* o_grid)
     int startX = ((this->screenWidth - width) / 2) + borderOffset;
     int startY = ((this->screenHeight - height) / 2) + borderOffset;
 
+    this->initGrid();
+
     for (int i = 0; i < this->nbColonnes; i++)
     {
         for (int j = 0; j < this->nbLignes; j++)
@@ -144,5 +196,9 @@ void Window::graphicDisplay(Grid* o_grid)
         startX = ((this->screenWidth - width) / 2) + borderOffset;
     }
     SDL_RenderPresent(this->renderer);
+}
 
+SDL_Renderer* Window::getRenderer()
+{
+    return this->renderer;
 }

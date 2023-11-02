@@ -34,6 +34,12 @@
     <Filter Include="Fichiers de ressources\Image">
       <UniqueIdentifier>{912bfda6-e92f-4463-be35-1664cd7896d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Image\Tiles">
+      <UniqueIdentifier>{e012ae3d-b1d5-4e2b-a436-ecf7f8dcb44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Image\Win/Lose">
+      <UniqueIdentifier>{989af48c-bdd4-452f-b583-a9f44c4838fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,38 +85,44 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Image\Tile_2048.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+    <Image Include="..\..\..\..\Downloads\lose.bmp">
+      <Filter>Fichiers de ressources\Image\Win/Lose</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\win.bmp">
+      <Filter>Fichiers de ressources\Image\Win/Lose</Filter>
     </Image>
     <Image Include="Image\Tile_2.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_4.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_8.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_16.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_32.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_64.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_128.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_256.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_512.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
     <Image Include="Image\Tile_1024.bmp">
-      <Filter>Fichiers de ressources\Image</Filter>
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
+    </Image>
+    <Image Include="Image\Tile_2048.bmp">
+      <Filter>Fichiers de ressources\Image\Tiles</Filter>
     </Image>
   </ItemGroup>
 </Project>
